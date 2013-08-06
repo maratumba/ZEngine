@@ -23,6 +23,7 @@ private:
 	bool isRunning;
 	CBlitter *blitter = nullptr;
 	CDrawable *stickman = nullptr;
+	CDrawable *guybrush = nullptr;
 };
 
 #endif

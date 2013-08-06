@@ -8,7 +8,7 @@ MAKE=make
 SDLLIBS = $(shell sdl2-config --libs)
 SDLINCS = $(shell sdl2-config --cflags)
 
-OBJS=czengine.o cblitter.o csdlblitter.o cdrawable.o csdlsprite.o
+OBJS=czengine.o cblitter.o csdlblitter.o cdrawable.o csdlsprite.o cspriteanim.o
 TARGET=ZEngine
 
 %.o: %.cpp %.h

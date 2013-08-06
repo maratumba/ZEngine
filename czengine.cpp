@@ -1,6 +1,7 @@
 #include "czengine.h"
 #include "csdlblitter.h"
 #include "csdlsprite.h"
+#include "cspriteanim.h"
 #include <SDL.h>
 #include <iostream>
 #include <unistd.h>
@@ -21,14 +22,21 @@ CZEngine::CZEngine()
 	if(!Init())
 		return;
 
-	std::string f = "./data/stickman.bmp";
+	std::string f;
+	f = "./data/stickman.bmp";
 	stickman = new CSDLSprite(dynamic_cast<CSDLBlitter*>(blitter), f);
 	stickman->SetPos(100, 400);
+
+	f = "./data/guybrush.bmp";
+	guybrush = new CSpriteAnim(dynamic_cast<CSDLBlitter*>(blitter), f);
+	guybrush->SetPos(300, 400);
 }
 
 CZEngine::~CZEngine()
 {
 	delete stickman;
+	delete guybrush;
+
 	delete blitter;
 }
 
@@ -101,6 +109,7 @@ void CZEngine::Render()
 {
 	blitter->Clear();
 	stickman->Draw();
+	guybrush->Draw();
 	blitter->Draw();
 }
 
