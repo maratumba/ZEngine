@@ -4,8 +4,9 @@
 #include <iostream>
 
 CSDLSprite::CSDLSprite(CSDLBlitter *blitter, std::string &file)
+	: CDrawable()
+	, blitter(blitter)
 {
-	this->blitter = blitter;
 	LoadImage(file);
 }
 

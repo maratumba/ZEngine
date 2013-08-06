@@ -3,6 +3,7 @@
 #include <iostream>
 
 CSDLBlitter::CSDLBlitter()
+	:CBlitter()
 {
 }
 
