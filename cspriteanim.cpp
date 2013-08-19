@@ -17,9 +17,20 @@ CSpriteAnim::~CSpriteAnim()
 
 int CSpriteAnim::Draw()
 {
+	using namespace std::chrono;
 	static int frameno = 0;
-	CSDLSprite::DrawFrame(frameno);
-	frameno = (frameno + 1) % NumFrames;
+
+	high_resolution_clock::time_point now = high_resolution_clock::now();
+	duration<double> d = duration_cast<duration<double>> (now - LastFrameTime);
+
+	if(d.count() > 0.15)
+	{
+		std::cout << "duration: " << d.count() << std::endl;
+		LastFrameTime = now;
+		frameno = (frameno + 1) % (NumFrames - 1);
+	}
+
+	CSDLSprite::DrawFrame(frameno+1);
 	return 0;
 }
 

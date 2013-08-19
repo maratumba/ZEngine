@@ -2,6 +2,7 @@
 #define __CSPRITEABIM_H__
 
 #include "csdlsprite.h"
+#include <chrono>
 
 class CSpriteAnim: public CSDLSprite
 {
@@ -13,6 +14,7 @@ public:
 
 private:
 	int NumFrames = 0;
+	std::chrono::system_clock::time_point LastFrameTime;
 };
 
 #endif
