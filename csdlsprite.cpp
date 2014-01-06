@@ -46,7 +46,7 @@ int CSDLSprite::Draw()
 int CSDLSprite::DrawFrame(int frameno)
 {
 	SDL_Rect srcrect {sizex*frameno, 0, sizex, sizey};
-	SDL_Rect destrect {posx, posy, sizex, sizey};
+	SDL_Rect destrect {posx, posy, sizex*scalex, sizey*scaley};
 	SDL_RenderCopy(blitter->GetRenderer(), texture, &srcrect, &destrect);
 	return 0;
 }

@@ -28,7 +28,7 @@ CZEngine::CZEngine()
 	stickman->SetPos(100, 400);
 
 	f = "./data/guybrush.bmp";
-	guybrush = new CSpriteAnim(dynamic_cast<CSDLBlitter*>(blitter), f);
+	guybrush = new CSpriteAnim(dynamic_cast<CSDLBlitter*>(blitter), f, 100, 0.15);
 	guybrush->SetPos(300, 400);
 }
 
@@ -79,11 +79,13 @@ void CZEngine::CheckKeyEvents()
 	const unsigned char *keys = SDL_GetKeyboardState(NULL);
 	if(keys[SDL_SCANCODE_RIGHT])
 	{
-		stickman->MoveRight(10);
+		//stickman->MoveRight(10);
+		guybrush->MoveRight(2);
 	}
 	if(keys[SDL_SCANCODE_LEFT])
 	{
-		stickman->MoveLeft(10);
+		//stickman->MoveLeft(10);
+		guybrush->MoveLeft(3);
 	}
 }
 
