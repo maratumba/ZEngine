@@ -4,9 +4,13 @@
 CSpriteAnim::CSpriteAnim(CSDLBlitter *blitter, std::string &file, int framewidth, double frameperiod)
 	: CSDLSprite(blitter, file)
 	, FramePeriod(frameperiod)
+	, FrameWidth(framewidth)
 {
-	NumFrames = sizex / framewidth;
+	NumFrames = sizex / FrameWidth;
 	sizex /= NumFrames;
+
+	FirstFrame = 0;
+	LastFrame = NumFrames - 1;
 
 	std::cout << "sizex: " << sizex << std::endl;
 	std::cout << "NumFrames: " << NumFrames << std::endl;
@@ -19,7 +23,6 @@ CSpriteAnim::~CSpriteAnim()
 int CSpriteAnim::Draw()
 {
 	using namespace std::chrono;
-	static int frameno = 0;
 
 	high_resolution_clock::time_point now = high_resolution_clock::now();
 	duration<double> d = duration_cast<duration<double>> (now - LastFrameTime);
@@ -28,10 +31,16 @@ int CSpriteAnim::Draw()
 	{
 		//std::cout << "duration: " << d.count() << std::endl;
 		LastFrameTime = now;
-		frameno = (frameno + 1) % (NumFrames - 1);
+
+		if(Running && (FramePeriod > 0))
+		{
+			CurrentFrame++;
+			if(CurrentFrame > LastFrame)
+				CurrentFrame = FirstFrame;
+		}
 	}
 
-	CSDLSprite::DrawFrame(frameno+1);
+	CSDLSprite::DrawFrame(CurrentFrame);
 	return 0;
 }
 

@@ -13,7 +13,7 @@ public:
 	CSDLSprite(CSDLBlitter *blitter, std::string &file);
 	virtual ~CSDLSprite();
 
-	int Draw();
+	int Draw() override;
 	int DrawFrame(int frameno);
 
 private:
