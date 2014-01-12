@@ -5,6 +5,7 @@ union SDL_Event;
 
 class CBlitter;
 class CDrawable;
+class CSpriteAnim;
 class CCharacter;
 
 class CZEngine
@@ -23,7 +24,8 @@ private:
 
 	bool isRunning;
 	CBlitter *blitter = nullptr;
-	CDrawable *stickman = nullptr;
+	CSpriteAnim *stickman = nullptr;
+	CDrawable *background = nullptr;
 	CCharacter *guybrush = nullptr;
 };
 

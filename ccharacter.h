@@ -16,6 +16,8 @@ public:
 
 private:
 	eAnimState State;
+
+	void SetAnimState(eAnimState state);
 };
 
 #endif

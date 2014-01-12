@@ -24,9 +24,15 @@ CZEngine::CZEngine()
 		return;
 
 	std::string f;
+	f = "./data/CitadelIsland.bmp";
+	background = new CSDLSprite(dynamic_cast<CSDLBlitter*>(blitter), f);
+	background->SetPos(-3000, -2500);
+
 	f = "./data/stickman.bmp";
-	stickman = new CSDLSprite(dynamic_cast<CSDLBlitter*>(blitter), f);
+	stickman = new CSpriteAnim(dynamic_cast<CSDLBlitter*>(blitter), f, 40, 1);
 	stickman->SetPos(100, 400);
+	stickman->SetActiveFrames(0,1);
+	stickman->StartAnimation();
 
 	f = "./data/guybrush.bmp";
 	guybrush = new CCharacter(dynamic_cast<CSDLBlitter*>(blitter), f, 100, 0.15);
@@ -102,6 +108,7 @@ void CZEngine::OnEvent(SDL_Event *event)
 void CZEngine::Render()
 {
 	blitter->Clear();
+	background->Draw();
 	stickman->Draw();
 	guybrush->Draw();
 	blitter->Draw();

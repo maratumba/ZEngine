@@ -10,8 +10,8 @@ public:
 	void SetPos(int x, int y) {posx = x; posy = y;}
 	int MoveRight(int dx) {posx += dx; return posx;}
 	int MoveLeft(int dx)  {posx -= dx; return posx;}
-	int MoveUp(int dy)    {posy += dy; return posy;}
-	int MoveDown(int dy)  {posy -= dy; return posy;}
+	int MoveUp(int dy)    {posy -= dy; return posy;}
+	int MoveDown(int dy)  {posy += dy; return posy;}
 	void SetScale(int sx, int sy) {scalex = sx; scaley = sy;}
 
 	virtual int Draw() = 0;

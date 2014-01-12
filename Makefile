@@ -20,7 +20,7 @@ TARGET=ZEngine
 ZEngine: $(OBJS)
 	$(CXX) $(OBJS) -o $(TARGET) $(CXXFLAGS) $(SDLLIBS)
 
-all: $(Target)
+all: $(TARGET)
 
 clean:
 	rm *.o $(TARGET)
