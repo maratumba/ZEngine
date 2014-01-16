@@ -3,19 +3,23 @@ CXX=g++
 CC=gcc
 DEST=/usr/local/games
 MAKE=make
-#ALLEGROLIBS = $(shell pkg-config --libs allegro-5.0)
-#ALLEGROINCS = $(shell pkg-config --cflags allegro-5.0) 
+
 SDLLIBS = $(shell sdl2-config --libs)
 SDLINCS = $(shell sdl2-config --cflags)
+RAPIDXMLINCS = -I./rapidxml
 
-OBJS=czengine.o cblitter.o csdlblitter.o cdrawable.o csdlsprite.o cspriteanim.o csdlinputsink.o ccharacter.o
+INCS = $(SDLINCS) $(RAPIDXMLINCS)
+
+OBJS=czengine.o cblitter.o csdlblitter.o cdrawable.o csdlsprite.o \
+	 cspriteanim.o csdlinputsink.o ccharacter.o cpolygon.o ccollider.o
+
 TARGET=ZEngine
 
 %.o: %.cpp %.h
-	$(CXX) $(CXXFLAGS) $(SDLINCS) -DLINUX -c $<
+	$(CXX) $(CXXFLAGS) $(INCS) -DLINUX -c $<
 
 %.o: %.c %.h
-	$(CC) $(CCFLAGS) $(SDLINCS) -DLINUX -c $<
+	$(CC) $(CCFLAGS) $(INCS) -DLINUX -c $<
 
 ZEngine: $(OBJS)
 	$(CXX) $(OBJS) -o $(TARGET) $(CXXFLAGS) $(SDLLIBS)

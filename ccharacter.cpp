@@ -1,4 +1,5 @@
 #include "ccharacter.h"
+#include "rapidxml.hpp"
 #include <SDL.h>
 
 enum class eAnimState
@@ -18,6 +19,12 @@ CCharacter::CCharacter(CSDLBlitter *blitter, std::string &file, int framewidth, 
 CCharacter::~CCharacter()
 {
 }
+
+int CCharacter::ReadConfig(std::string file)
+{
+	return 0;
+}
+
 void CCharacter::SetAnimState(eAnimState state)
 {
 	switch(state)
