@@ -1,5 +1,6 @@
 #include "ccharacter.h"
 #include "rapidxml.hpp"
+#include "rapidxml_utils.hpp"
 #include <SDL.h>
 
 enum class eAnimState
@@ -10,9 +11,10 @@ enum class eAnimState
 	WalkLeft
 };
 
-CCharacter::CCharacter(CSDLBlitter *blitter, std::string &file, int framewidth, double frameperiod)
-	:CSpriteAnim(blitter, file, framewidth, frameperiod)
-	,State(eAnimState::StandRight)
+CCharacter::CCharacter(CSDLBlitter *blitter)
+	:CSpriteAnim(blitter)
+	,CSDLInputSink()
+	,State_(eAnimState::StandRight)
 {
 }
 
@@ -20,8 +22,16 @@ CCharacter::~CCharacter()
 {
 }
 
-int CCharacter::ReadConfig(std::string file)
+int CCharacter::Init(std::string &file, int framewidth, double frameperiod)
 {
+	return CSpriteAnim::Init(file, framewidth, frameperiod);
+}
+
+int CCharacter::ReadConfig(std::string &file)
+{
+	rapidxml::file<> f(file.c_str());
+	rapidxml::xml_document<> doc;
+	doc.parse<0>(f.data());
 	return 0;
 }
 
@@ -30,25 +40,25 @@ void CCharacter::SetAnimState(eAnimState state)
 	switch(state)
 	{
 	case eAnimState::WalkRight:
-		if(this->State != eAnimState::WalkRight)
+		if(this->State_ != eAnimState::WalkRight)
 			this->SetActiveFrames(1, 6);
-		this->State = eAnimState::WalkRight;
+		this->State_ = eAnimState::WalkRight;
 		break;
 
 	case eAnimState::WalkLeft:
-		if(this->State != eAnimState::WalkLeft)
+		if(this->State_ != eAnimState::WalkLeft)
 			this->SetActiveFrames(8, 13);
-		this->State = eAnimState::WalkLeft;
+		this->State_ = eAnimState::WalkLeft;
 		break;
 
 	case eAnimState::StandRight:
 		this->SetActiveFrames(0, 0);
-		this->State = eAnimState::StandRight;
+		this->State_ = eAnimState::StandRight;
 		break;
 
 	case eAnimState::StandLeft:
 		this->SetActiveFrames(7, 7);
-		this->State = eAnimState::StandLeft;
+		this->State_ = eAnimState::StandLeft;
 		break;
 	
 	default:
@@ -112,9 +122,9 @@ void CCharacter::UpdateKeybState(const unsigned char *keys)
 	}
 	else
 	{
-		if(State == eAnimState::WalkRight)
+		if(State_ == eAnimState::WalkRight)
 			this->SetAnimState(eAnimState::StandRight);
-		if(State == eAnimState::WalkLeft)
+		if(State_ == eAnimState::WalkLeft)
 			this->SetAnimState(eAnimState::StandLeft);
 		//this->StopAnimation();
 	}

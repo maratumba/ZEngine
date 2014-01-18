@@ -9,8 +9,8 @@ CSDLBlitter::CSDLBlitter()
 
 CSDLBlitter::~CSDLBlitter()
 {
-	SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(window);
+	SDL_DestroyRenderer(Renderer_);
+	SDL_DestroyWindow(Window_);
 }
 
 int CSDLBlitter::Init(int width, int height, int bpp)
@@ -25,12 +25,12 @@ int CSDLBlitter::Init(int width, int height, int bpp)
 
 	std::cout << "creating window" << std::endl;
 
-	window = SDL_CreateWindow("ZEngine",
+	Window_ = SDL_CreateWindow("ZEngine",
 			SDL_WINDOWPOS_CENTERED,
 			SDL_WINDOWPOS_CENTERED,
 			width,height,
 			SDL_WINDOW_SHOWN);
-	if(!window)
+	if(!Window_)
 	{
 		std::cout << SDL_GetError() << std::endl;
 		return -1;
@@ -38,8 +38,8 @@ int CSDLBlitter::Init(int width, int height, int bpp)
 
 	std::cout << "creating renderer" << std::endl;
 
-	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-	if(!renderer)
+	Renderer_ = SDL_CreateRenderer(Window_, -1, SDL_RENDERER_ACCELERATED);
+	if(!Renderer_)
 	{
 		std::cout << SDL_GetError() << std::endl;
 		return -1;
@@ -50,7 +50,7 @@ int CSDLBlitter::Init(int width, int height, int bpp)
 
 int CSDLBlitter::Clear()
 {
-	int rvl = SDL_RenderClear(renderer);
+	int rvl = SDL_RenderClear(Renderer_);
 	if(rvl)
 		std::cout << SDL_GetError() << std::endl;
 	return rvl;
@@ -58,7 +58,7 @@ int CSDLBlitter::Clear()
 
 int CSDLBlitter::Draw()
 {
-	SDL_RenderPresent(renderer);
+	SDL_RenderPresent(Renderer_);
 	return 0;
 }
 

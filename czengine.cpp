@@ -16,7 +16,7 @@ int main()
 
 CZEngine::CZEngine()
 {
-	isRunning = false;
+	isRunning_ = false;
 	blitter = new CSDLBlitter;
 
 
@@ -25,24 +25,35 @@ CZEngine::CZEngine()
 
 	std::string f;
 	f = "./data/CitadelIsland.bmp";
-	background = new CSDLSprite(dynamic_cast<CSDLBlitter*>(blitter), f);
+	CSDLSprite *background = new CSDLSprite(dynamic_cast<CSDLBlitter*>(blitter));
+	background->LoadImage(f);
 	background->SetPos(-3000, -2500);
+	Drawables_.push_back(background);
 
 	f = "./data/stickman.bmp";
-	stickman = new CSpriteAnim(dynamic_cast<CSDLBlitter*>(blitter), f, 40, 1);
+	CSpriteAnim *stickman = new CSpriteAnim(dynamic_cast<CSDLBlitter*>(blitter));
+	stickman->Init(f, 40, 1);
 	stickman->SetPos(100, 400);
 	stickman->SetActiveFrames(0,1);
 	stickman->StartAnimation();
+	Drawables_.push_back(stickman);
 
 	f = "./data/guybrush.bmp";
-	guybrush = new CCharacter(dynamic_cast<CSDLBlitter*>(blitter), f, 100, 0.15);
+	CCharacter *guybrush = new CCharacter(dynamic_cast<CSDLBlitter*>(blitter));
+	guybrush->Init(f, 100, 0.15);
 	guybrush->SetPos(300, 400);
+	Drawables_.push_back(guybrush);
+	InputSinks_.push_back(guybrush);
 }
 
 CZEngine::~CZEngine()
 {
-	delete stickman;
-	delete guybrush;
+	for(auto &i : Drawables_)
+	{
+		delete i;
+	}
+	Drawables_.clear();
+	InputSinks_.clear();
 
 	delete blitter;
 }
@@ -52,8 +63,8 @@ void CZEngine::Run()
 	std::cout << "init done" << std::endl;
 
 	SDL_Event event;
-	isRunning = true;
-	while(isRunning)
+	isRunning_ = true;
+	while(isRunning_)
 	{
 		while(SDL_PollEvent(&event))
 		{
@@ -84,7 +95,10 @@ void CZEngine::Quit()
 void CZEngine::CheckKeyEvents()
 {
 	const unsigned char *keys = SDL_GetKeyboardState(NULL);
-	guybrush->UpdateKeybState(keys);
+	for(auto &i : InputSinks_)
+	{
+		i->UpdateKeybState(keys);
+	}
 }
 
 void CZEngine::OnEvent(SDL_Event *event)
@@ -95,12 +109,12 @@ void CZEngine::OnEvent(SDL_Event *event)
 		{
 			switch(event->key.keysym.sym)
 			{
-			case SDLK_ESCAPE: isRunning = false; break;
+			case SDLK_ESCAPE: isRunning_ = false; break;
 			default: break;
 			}
 		}break;
 	case SDL_QUIT:
-		isRunning = false; break;
+		isRunning_ = false; break;
 	default: break;
 	}
 }
@@ -108,9 +122,12 @@ void CZEngine::OnEvent(SDL_Event *event)
 void CZEngine::Render()
 {
 	blitter->Clear();
-	background->Draw();
-	stickman->Draw();
-	guybrush->Draw();
+
+	for(auto &i : Drawables_)
+	{
+		i->Draw();
+	}
+
 	blitter->Draw();
 }
 

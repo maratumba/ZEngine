@@ -7,18 +7,20 @@
 
 enum class eAnimState;
 
-class CCharacter: public CSpriteAnim, CSDLInputSink, CCollider
+class CCharacter: public CSpriteAnim, public CSDLInputSink, CCollider
 {
 public:
-	CCharacter(CSDLBlitter *blitter, std::string &file, int framewidth, double frameperiod);
+	CCharacter(CSDLBlitter *blitter);
 	virtual ~CCharacter();
 
 	void UpdateKeybState(const unsigned char *keys) override;
 
-private:
-	eAnimState State;
+	int Init(std::string &file, int framewidth, double frameperiod);
 
-	int ReadConfig(std::string file);
+private:
+	eAnimState State_;
+
+	int ReadConfig(std::string &file);
 	void SetAnimState(eAnimState state);
 };
 

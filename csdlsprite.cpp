@@ -3,18 +3,17 @@
 #include <SDL.h>
 #include <iostream>
 
-CSDLSprite::CSDLSprite(CSDLBlitter *blitter, std::string &file)
+CSDLSprite::CSDLSprite(CSDLBlitter *blitter)
 	: CDrawable()
-	, blitter(blitter)
+	, Blitter_(blitter)
 {
-	LoadImage(file);
 }
 
 CSDLSprite::~CSDLSprite()
 {
-	SDL_DestroyTexture(texture);
-	texture = nullptr;
-	blitter = nullptr;
+	SDL_DestroyTexture(Texture_);
+	Texture_ = nullptr;
+	Blitter_ = nullptr;
 }
 
 int CSDLSprite::LoadImage(std::string &file)
@@ -27,10 +26,10 @@ int CSDLSprite::LoadImage(std::string &file)
 		return 1;
 	}
 
-	sizex = bmp->w;
-	sizey = bmp->h;
+	SizeX_ = bmp->w;
+	SizeY_ = bmp->h;
 
-	texture = SDL_CreateTextureFromSurface(blitter->GetRenderer(), bmp);
+	Texture_ = SDL_CreateTextureFromSurface(Blitter_->GetRenderer(), bmp);
 	SDL_FreeSurface(bmp);
 
 	std::cout << "image loaded: " << file.c_str() << std::endl;
@@ -45,9 +44,9 @@ int CSDLSprite::Draw()
 
 int CSDLSprite::DrawFrame(int frameno)
 {
-	SDL_Rect srcrect {sizex*frameno, 0, sizex, sizey};
-	SDL_Rect destrect {posx, posy, sizex*scalex, sizey*scaley};
-	SDL_RenderCopy(blitter->GetRenderer(), texture, &srcrect, &destrect);
+	SDL_Rect srcrect {GetSizeX()*frameno, 0, GetSizeX(), GetSizeY()};
+	SDL_Rect destrect {GetPosX(), GetPosY(), GetSizeX()*GetScaleX(), GetSizeY()*GetScaleY()};
+	SDL_RenderCopy(Blitter_->GetRenderer(), Texture_, &srcrect, &destrect);
 	return 0;
 }
 

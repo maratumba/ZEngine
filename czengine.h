@@ -1,12 +1,13 @@
 #ifndef __CZENGINE_H__
 #define __CZENGINE_H__
 
+#include <vector>
+
 union SDL_Event;
 
 class CBlitter;
 class CDrawable;
-class CSpriteAnim;
-class CCharacter;
+class CSDLInputSink;
 
 class CZEngine
 {
@@ -22,11 +23,11 @@ private:
 	void Render();
 	void Loop();
 
-	bool isRunning;
+	bool isRunning_;
 	CBlitter *blitter = nullptr;
-	CSpriteAnim *stickman = nullptr;
-	CDrawable *background = nullptr;
-	CCharacter *guybrush = nullptr;
+
+	std::vector<CDrawable*> Drawables_;
+	std::vector<CSDLInputSink*> InputSinks_;
 };
 
 #endif

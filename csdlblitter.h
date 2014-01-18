@@ -17,11 +17,11 @@ public:
 	virtual int Clear();
 	virtual int Draw();
 
-	SDL_Renderer *GetRenderer() {return renderer;}
+	SDL_Renderer *GetRenderer() {return Renderer_;}
 
 private:
-	SDL_Window *window = nullptr;
-	SDL_Renderer *renderer = nullptr;
+	SDL_Window *Window_ = nullptr;
+	SDL_Renderer *Renderer_ = nullptr;
 };
 
 #endif

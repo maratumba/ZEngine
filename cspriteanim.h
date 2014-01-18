@@ -7,25 +7,26 @@
 class CSpriteAnim: public CSDLSprite
 {
 public:
-	CSpriteAnim(CSDLBlitter *blitter, std::string &file, int framewidth, double frameperiod = 0);
+	CSpriteAnim(CSDLBlitter *blitter);
 	virtual ~CSpriteAnim();
 
 	int Draw() override;
 
-	void SetActiveFrames(int first, int last) {FirstFrame = first; LastFrame = last; CurrentFrame = first;}
-	void SetFramePeriod(double frameperiod) {FramePeriod = frameperiod;}
-	void StartAnimation() {Running = true;}
-	void StopAnimation() {Running = false;}
+	int Init(std::string &file, int framewidth, double frameperiod = 0);
+	void SetActiveFrames(int first, int last) {FirstFrame_ = first; LastFrame_ = last; CurrentFrame_ = first;}
+	void SetFramePeriod(double frameperiod) {FramePeriod_ = frameperiod;}
+	void StartAnimation() {Running_ = true;}
+	void StopAnimation() {Running_ = false;}
 
 private:
-	bool Running = false;
-	int NumFrames = 0;
-	int FirstFrame = 0;
-	int LastFrame = 0;
-	int CurrentFrame = 0;
-	double FramePeriod = 0;
-	int FrameWidth = 0;
-	std::chrono::system_clock::time_point LastFrameTime;
+	bool Running_ = false;
+	int NumFrames_ = 0;
+	int FirstFrame_ = 0;
+	int LastFrame_ = 0;
+	int CurrentFrame_ = 0;
+	double FramePeriod_ = 0;
+	int FrameWidth_ = 0;
+	std::chrono::system_clock::time_point LastFrameTime_;
 };
 
 #endif

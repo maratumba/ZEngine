@@ -1,0 +1,3 @@
+<character>
+	<spriteanim file="data/guybrush.bmp" framewidth="100" frameperiod="0.15" />
+</character>
