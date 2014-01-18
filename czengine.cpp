@@ -28,7 +28,7 @@ CZEngine::CZEngine()
 	CSDLSprite *background = new CSDLSprite(dynamic_cast<CSDLBlitter*>(blitter));
 	background->LoadImage(f);
 	background->SetPos(-3000, -2500);
-	Drawables_.push_back(background);
+	Sprites_.push_back(background);
 
 	f = "./data/stickman.bmp";
 	CSpriteAnim *stickman = new CSpriteAnim(dynamic_cast<CSDLBlitter*>(blitter));
@@ -36,7 +36,7 @@ CZEngine::CZEngine()
 	stickman->SetPos(100, 400);
 	stickman->SetActiveFrames(0,1);
 	stickman->StartAnimation();
-	Drawables_.push_back(stickman);
+	Sprites_.push_back(stickman);
 
 	f = "./data/guybrush.bmp";
 	CCharacter *guybrush = new CCharacter(dynamic_cast<CSDLBlitter*>(blitter));
@@ -44,17 +44,17 @@ CZEngine::CZEngine()
 	guybrush->ReadConfig(c);
 	//guybrush->Init(f, 100, 0.15);
 	guybrush->SetPos(300, 400);
-	Drawables_.push_back(guybrush);
+	Sprites_.push_back(guybrush);
 	InputSinks_.push_back(guybrush);
 }
 
 CZEngine::~CZEngine()
 {
-	for(auto &i : Drawables_)
+	for(auto &i : Sprites_)
 	{
 		delete i;
 	}
-	Drawables_.clear();
+	Sprites_.clear();
 	InputSinks_.clear();
 
 	delete blitter;
@@ -125,9 +125,10 @@ void CZEngine::Render()
 {
 	blitter->Clear();
 
-	for(auto &i : Drawables_)
+	for(auto &i : Sprites_)
 	{
 		i->Draw();
+		i->DrawCollisionPolygons(blitter);
 	}
 
 	blitter->Draw();

@@ -15,8 +15,7 @@ public:
 	void AddPoint(tPoint &p);
 	bool CollidesWith(CPolygon &poly);
 
-private:
-	std::vector<tPoint> Points;
+	std::vector<tPoint> Points_;
 };
 
 #endif

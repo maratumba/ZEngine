@@ -34,6 +34,10 @@ int CSpriteAnim::ReadConfig(const rapidxml::xml_node<> *node)
 
 	int rvl = Init(file, framewidth, frameperiod);
 
+	xml_node<> *sprite = node->first_node("sprite");
+	if(sprite)
+		CSDLSprite::ReadConfig(sprite);
+
 	return rvl;
 }
 

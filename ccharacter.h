@@ -3,13 +3,12 @@
 
 #include "cspriteanim.h"
 #include "csdlinputsink.h"
-#include "ccollider.h"
 
 #include "rapidxml.hpp"
 
 enum class eAnimState;
 
-class CCharacter: public CSpriteAnim, public CSDLInputSink, CCollider
+class CCharacter: public CSpriteAnim, public CSDLInputSink
 {
 public:
 	CCharacter(CSDLBlitter *blitter);

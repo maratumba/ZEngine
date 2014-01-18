@@ -6,7 +6,7 @@
 union SDL_Event;
 
 class CBlitter;
-class CDrawable;
+class CSDLSprite;
 class CSDLInputSink;
 
 class CZEngine
@@ -26,7 +26,7 @@ private:
 	bool isRunning_;
 	CBlitter *blitter = nullptr;
 
-	std::vector<CDrawable*> Drawables_;
+	std::vector<CSDLSprite*> Sprites_;
 	std::vector<CSDLInputSink*> InputSinks_;
 };
 

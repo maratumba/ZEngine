@@ -13,9 +13,10 @@ public:
 	CSDLBlitter();
 	virtual ~CSDLBlitter();
 
-	virtual int Init(int width, int height, int bpp);
-	virtual int Clear();
-	virtual int Draw();
+	virtual int Init(int width, int height, int bpp) override;
+	virtual int Clear() override;
+	virtual int Draw() override;
+	virtual int DrawLine(int x1, int y1, int x2, int y2) override;
 
 	SDL_Renderer *GetRenderer() {return Renderer_;}
 

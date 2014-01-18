@@ -52,12 +52,13 @@ int CCharacter::ReadConfig(const rapidxml::xml_node<> *node)
 {
 	std::cout << *node;
 
+	std::cout << "Reading CCharacter" << std::endl;
 	rapidxml::xml_node<> *anim = node->first_node("spriteanim");
 	if(!anim)
 		return 1;
 
-	std::cout << *anim;
 	CSpriteAnim::ReadConfig(anim);
+	std::cout << "Reading CCharacter done" << std::endl;
 	return 0;
 }
 

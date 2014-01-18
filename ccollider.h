@@ -3,16 +3,21 @@
 
 #include "cpolygon.h"
 
+class CBlitter;
+
 class CCollider
 {
 public:
 	CCollider() {;}
 	~CCollider() {;}
 
+	void AddCollisionPolygon(CPolygon &poly);
 	bool CollidesWith(CCollider &collider);
 
-private:
-	std::vector<CPolygon> Polygons;
+	void DumpCollisionPolygons();
+
+protected:
+	std::vector<CPolygon> CollisionPolygons_;
 };
 
 #endif

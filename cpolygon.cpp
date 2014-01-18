@@ -2,7 +2,7 @@
 
 void CPolygon::AddPoint(tPoint &p)
 {
-	Points.push_back(p);
+	Points_.push_back(p);
 }
 
 bool CPolygon::CollidesWith(CPolygon &poly)
