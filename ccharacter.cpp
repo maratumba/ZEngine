@@ -1,7 +1,10 @@
 #include "ccharacter.h"
 #include "rapidxml.hpp"
 #include "rapidxml_utils.hpp"
+//#include "rapidxml_iterators.hpp"
+#include "rapidxml_print.hpp"
 #include <SDL.h>
+#include <iostream>
 
 enum class eAnimState
 {
@@ -29,9 +32,32 @@ int CCharacter::Init(std::string &file, int framewidth, double frameperiod)
 
 int CCharacter::ReadConfig(std::string &file)
 {
+	using namespace rapidxml;
+
 	rapidxml::file<> f(file.c_str());
 	rapidxml::xml_document<> doc;
 	doc.parse<0>(f.data());
+
+	//std::cout << doc;
+
+	xml_node<> *root = doc.first_node("character");
+	if(!root)
+		return 1;
+	
+	ReadConfig(root);
+	return 0;
+}
+
+int CCharacter::ReadConfig(const rapidxml::xml_node<> *node)
+{
+	std::cout << *node;
+
+	rapidxml::xml_node<> *anim = node->first_node("spriteanim");
+	if(!anim)
+		return 1;
+
+	std::cout << *anim;
+	CSpriteAnim::ReadConfig(anim);
 	return 0;
 }
 

@@ -10,6 +10,33 @@ CSpriteAnim::~CSpriteAnim()
 {
 }
 
+int CSpriteAnim::ReadConfig(const rapidxml::xml_node<> *node)
+{
+	using namespace rapidxml;
+	std::string file = "";
+	int framewidth = 0;
+	double frameperiod = 0;
+
+	std::cout << "Reading CSpriteAnim" << std::endl;
+	xml_attribute<> *att;
+	att = node->first_attribute("file");
+	if(att)
+		file = att->value();
+	std::cout << "file       : " << file << std::endl;
+	att = node->first_attribute("framewidth");
+	if(att)
+		framewidth = atol(att->value());
+	std::cout << "framewidth : " << framewidth << std::endl;
+	att = node->first_attribute("frameperiod");
+	if(att)
+		frameperiod = atof(att->value());
+	std::cout << "frameperiod: " << frameperiod << std::endl;
+
+	int rvl = Init(file, framewidth, frameperiod);
+
+	return rvl;
+}
+
 int CSpriteAnim::Init(std::string &file, int framewidth, double frameperiod)
 {
 	int rvl = CSDLSprite::LoadImage(file);

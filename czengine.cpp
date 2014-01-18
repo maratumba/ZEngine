@@ -40,7 +40,9 @@ CZEngine::CZEngine()
 
 	f = "./data/guybrush.bmp";
 	CCharacter *guybrush = new CCharacter(dynamic_cast<CSDLBlitter*>(blitter));
-	guybrush->Init(f, 100, 0.15);
+	std::string c = "./data/guybrush.xml";
+	guybrush->ReadConfig(c);
+	//guybrush->Init(f, 100, 0.15);
 	guybrush->SetPos(300, 400);
 	Drawables_.push_back(guybrush);
 	InputSinks_.push_back(guybrush);

@@ -5,6 +5,8 @@
 #include "csdlinputsink.h"
 #include "ccollider.h"
 
+#include "rapidxml.hpp"
+
 enum class eAnimState;
 
 class CCharacter: public CSpriteAnim, public CSDLInputSink, CCollider
@@ -15,12 +17,14 @@ public:
 
 	void UpdateKeybState(const unsigned char *keys) override;
 
+	int ReadConfig(std::string &file);
 	int Init(std::string &file, int framewidth, double frameperiod);
 
 private:
 	eAnimState State_;
 
-	int ReadConfig(std::string &file);
+	int ReadConfig(const rapidxml::xml_node<> *node);
+
 	void SetAnimState(eAnimState state);
 };
 

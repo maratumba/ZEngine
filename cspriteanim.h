@@ -2,6 +2,9 @@
 #define __CSPRITEANIM_H__
 
 #include "csdlsprite.h"
+
+#include "rapidxml.hpp"
+
 #include <chrono>
 
 class CSpriteAnim: public CSDLSprite
@@ -17,6 +20,9 @@ public:
 	void SetFramePeriod(double frameperiod) {FramePeriod_ = frameperiod;}
 	void StartAnimation() {Running_ = true;}
 	void StopAnimation() {Running_ = false;}
+
+protected:
+	int ReadConfig(const rapidxml::xml_node<> *node);
 
 private:
 	bool Running_ = false;
