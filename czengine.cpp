@@ -24,23 +24,25 @@ CZEngine::CZEngine()
 		return;
 
 	std::string f;
+	std::string c;
 	f = "./data/CitadelIsland.bmp";
-	CSDLSprite *background = new CSDLSprite(dynamic_cast<CSDLBlitter*>(blitter));
+	CSDLSprite *background = new CSDLSprite(1, dynamic_cast<CSDLBlitter*>(blitter));
 	background->LoadImage(f);
 	background->SetPos(-3000, -2500);
 	Sprites_.push_back(background);
 
 	f = "./data/stickman.bmp";
-	CSpriteAnim *stickman = new CSpriteAnim(dynamic_cast<CSDLBlitter*>(blitter));
-	stickman->Init(f, 40, 1);
+	CSpriteAnim *stickman = new CSpriteAnim(2, dynamic_cast<CSDLBlitter*>(blitter));
+	c = "./data/stickman.xml";
+	stickman->ReadConfig(c);
+	//stickman->Init(f, 40, 1);
 	stickman->SetPos(100, 400);
 	stickman->SetActiveFrames(0,1);
 	stickman->StartAnimation();
 	Sprites_.push_back(stickman);
 
-	f = "./data/guybrush.bmp";
-	CCharacter *guybrush = new CCharacter(dynamic_cast<CSDLBlitter*>(blitter));
-	std::string c = "./data/guybrush.xml";
+	CCharacter *guybrush = new CCharacter(3, dynamic_cast<CSDLBlitter*>(blitter), Sprites_);
+	c = "./data/guybrush.xml";
 	guybrush->ReadConfig(c);
 	//guybrush->Init(f, 100, 0.15);
 	guybrush->SetPos(300, 400);
@@ -128,6 +130,9 @@ void CZEngine::Render()
 	for(auto &i : Sprites_)
 	{
 		i->Draw();
+	}
+	for(auto &i : Sprites_)
+	{
 		i->DrawCollisionPolygons(blitter);
 	}
 

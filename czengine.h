@@ -6,6 +6,7 @@
 union SDL_Event;
 
 class CBlitter;
+class CCollider;
 class CSDLSprite;
 class CSDLInputSink;
 

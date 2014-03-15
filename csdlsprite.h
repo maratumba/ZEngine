@@ -14,7 +14,7 @@ struct SDL_Texture;
 class CSDLSprite: public CDrawable, public CCollider
 {
 public:
-	CSDLSprite(CSDLBlitter *blitter);
+	CSDLSprite(int id, CSDLBlitter *blitter);
 	virtual ~CSDLSprite();
 
 	int LoadImage(std::string &file);

@@ -3,9 +3,10 @@
 #include <SDL.h>
 #include <iostream>
 
-CSDLSprite::CSDLSprite(CSDLBlitter *blitter)
-	: CDrawable()
-	, Blitter_(blitter)
+CSDLSprite::CSDLSprite(int id, CSDLBlitter *blitter)
+	:CDrawable()
+	,CCollider(id)
+	,Blitter_(blitter)
 {
 }
 

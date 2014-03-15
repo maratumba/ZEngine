@@ -4,7 +4,7 @@
 class CDrawable
 {
 public:
- 	CDrawable()	{;}
+ 	CDrawable() {;}
 	virtual ~CDrawable() {;}
 
 	void SetPos(int x, int y) {PosX_ = x; PosY_ = y;}

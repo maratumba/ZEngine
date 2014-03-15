@@ -1,13 +1,32 @@
 #include "cspriteanim.h"
+#include "rapidxml.hpp"
+#include "rapidxml_utils.hpp"
+#include "rapidxml_print.hpp"
 #include <iostream>
 
-CSpriteAnim::CSpriteAnim(CSDLBlitter *blitter)
-	: CSDLSprite(blitter)
+CSpriteAnim::CSpriteAnim(int id, CSDLBlitter *blitter)
+	: CSDLSprite(id, blitter)
 {
 }
 
 CSpriteAnim::~CSpriteAnim()
 {
+}
+
+int CSpriteAnim::ReadConfig(std::string &file)
+{
+	using namespace rapidxml;
+
+	rapidxml::file<> f(file.c_str());
+	rapidxml::xml_document<> doc;
+	doc.parse<0>(f.data());
+
+	xml_node<> *root = doc.first_node("spriteanim");
+	if(!root)
+		return 1;
+	
+	ReadConfig(root);
+	return 0;
 }
 
 int CSpriteAnim::ReadConfig(const rapidxml::xml_node<> *node)

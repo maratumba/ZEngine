@@ -1,0 +1,10 @@
+<spriteanim file="data/stickman.bmp" framewidth="40" frameperiod="0.5">
+  <sprite>
+    <polygon>
+      <point x="5" y="64" />
+      <point x="35" y="64" />
+      <point x="35" y="32" />
+      <point x="5" y="32" />
+    </polygon>
+  </sprite>
+</spriteanim>

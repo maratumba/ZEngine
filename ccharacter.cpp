@@ -1,7 +1,6 @@
 #include "ccharacter.h"
 #include "rapidxml.hpp"
 #include "rapidxml_utils.hpp"
-//#include "rapidxml_iterators.hpp"
 #include "rapidxml_print.hpp"
 #include <SDL.h>
 #include <iostream>
@@ -14,10 +13,11 @@ enum class eAnimState
 	WalkLeft
 };
 
-CCharacter::CCharacter(CSDLBlitter *blitter)
-	:CSpriteAnim(blitter)
+CCharacter::CCharacter(int id, CSDLBlitter *blitter, std::vector<CSDLSprite*> &colliders)
+	:CSpriteAnim(id, blitter)
 	,CSDLInputSink()
 	,State_(eAnimState::StandRight)
+	,Colliders_(colliders)
 {
 }
 
@@ -38,8 +38,6 @@ int CCharacter::ReadConfig(std::string &file)
 	rapidxml::xml_document<> doc;
 	doc.parse<0>(f.data());
 
-	//std::cout << doc;
-
 	xml_node<> *root = doc.first_node("character");
 	if(!root)
 		return 1;
@@ -50,16 +48,34 @@ int CCharacter::ReadConfig(std::string &file)
 
 int CCharacter::ReadConfig(const rapidxml::xml_node<> *node)
 {
-	std::cout << *node;
-
 	std::cout << "Reading CCharacter" << std::endl;
 	rapidxml::xml_node<> *anim = node->first_node("spriteanim");
 	if(!anim)
 		return 1;
 
-	CSpriteAnim::ReadConfig(anim);
+	int rvl = CSpriteAnim::ReadConfig(anim);
 	std::cout << "Reading CCharacter done" << std::endl;
-	return 0;
+	return rvl;
+}
+
+bool CCharacter::Collides()
+{
+	for(auto &coll : Colliders_)
+	{
+		if(GetId() == coll->GetId())
+			continue;
+
+		tPoint thisPos;
+		tPoint otherPos;
+		
+		bool rvl = CollidesWith(thisPos, *coll, otherPos);
+		if(rvl)
+		{
+			std::cout << "This " << GetId() << " collides with " << coll->GetId() << std::endl;
+			return true;
+		}
+	}
+	return false;
 }
 
 void CCharacter::SetAnimState(eAnimState state)
@@ -95,6 +111,10 @@ void CCharacter::SetAnimState(eAnimState state)
 
 void CCharacter::UpdateKeybState(const unsigned char *keys)
 {
+
+		if(this->Collides())
+			std::cout << "Collides" << std::endl;
+
 	if(keys[SDL_SCANCODE_RIGHT] && keys[SDL_SCANCODE_UP])
 	{
 		this->MoveRight(1);

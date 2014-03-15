@@ -10,7 +10,7 @@
 class CSpriteAnim: public CSDLSprite
 {
 public:
-	CSpriteAnim(CSDLBlitter *blitter);
+	CSpriteAnim(int id, CSDLBlitter *blitter);
 	virtual ~CSpriteAnim();
 
 	int Draw() override;
@@ -20,6 +20,8 @@ public:
 	void SetFramePeriod(double frameperiod) {FramePeriod_ = frameperiod;}
 	void StartAnimation() {Running_ = true;}
 	void StopAnimation() {Running_ = false;}
+
+	int ReadConfig(std::string &file);
 
 protected:
 	int ReadConfig(const rapidxml::xml_node<> *node);

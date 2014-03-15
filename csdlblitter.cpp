@@ -62,10 +62,13 @@ int CSDLBlitter::Draw()
 	return 0;
 }
 
-int CSDLBlitter::DrawLine(int x1, int y1, int x2, int y2)
+void CSDLBlitter::DrawLine(int x1, int y1, int x2, int y2)
 {
-	SDL_SetRenderDrawColor(Renderer_, 255, 0, 0, 0);
 	SDL_RenderDrawLine(Renderer_, x1, y1, x2, y2);
-	return 0;
+}
+
+void CSDLBlitter::SetDrawColor(int r, int g, int b, int a)
+{
+	SDL_SetRenderDrawColor(Renderer_, r, g, b, a);
 }
 
