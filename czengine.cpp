@@ -114,6 +114,10 @@ void CZEngine::OnEvent(SDL_Event *event)
 			switch(event->key.keysym.sym)
 			{
 			case SDLK_ESCAPE: isRunning_ = false; break;
+			case SDLK_w: blitter->MoveOffset(0,10); break;
+			case SDLK_s: blitter->MoveOffset(0,-10); break;
+			case SDLK_a: blitter->MoveOffset(10,0); break;
+			case SDLK_d: blitter->MoveOffset(-10,0); break;
 			default: break;
 			}
 		}break;

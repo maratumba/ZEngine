@@ -88,7 +88,15 @@ int CSDLSprite::Draw()
 int CSDLSprite::DrawFrame(int frameno)
 {
 	SDL_Rect srcrect {GetSizeX()*frameno, 0, GetSizeX(), GetSizeY()};
-	SDL_Rect destrect {GetPosX(), GetPosY(), GetSizeX()*GetScaleX(), GetSizeY()*GetScaleY()};
+	
+	std::cout << "Offset: " << Blitter_->GetOffsetX() << ", " << Blitter_->GetOffsetY() << std::endl;
+	
+	SDL_Rect destrect {
+			GetPosX() + Blitter_->GetOffsetX(),
+			GetPosY() + Blitter_->GetOffsetY(),
+			GetSizeX()*GetScaleX(),
+			GetSizeY()*GetScaleY()};
+
 	SDL_RenderCopy(Blitter_->GetRenderer(), Texture_, &srcrect, &destrect);
 
 	return 0;
@@ -102,10 +110,10 @@ void CSDLSprite::DrawCollisionPolygons(CBlitter *blitter)
 		for(auto &point : poly.Points_)
 		{
 			blitter->DrawLine(
-					GetPosX() + prevPoint->first, 
-					GetPosY() + prevPoint->second, 
-					GetPosX() + point.first, 
-					GetPosY() + point.second);
+					GetPosX() + Blitter_->GetOffsetX() + prevPoint->first, 
+					GetPosY() + Blitter_->GetOffsetY() + prevPoint->second, 
+					GetPosX() + Blitter_->GetOffsetX() + point.first, 
+					GetPosY() + Blitter_->GetOffsetY() + point.second);
 			prevPoint = &point;
 		}
 	}
