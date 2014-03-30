@@ -9,6 +9,7 @@ class CBlitter;
 class CCollider;
 class CSDLSprite;
 class CSDLInputSink;
+class CCharacter;
 
 class CZEngine
 {
@@ -26,7 +27,8 @@ private:
 
 	bool isRunning_;
 	CBlitter *blitter = nullptr;
-
+	CCharacter *Guybrush_ = nullptr;
+	
 	std::vector<CSDLSprite*> Sprites_;
 	std::vector<CSDLInputSink*> InputSinks_;
 };

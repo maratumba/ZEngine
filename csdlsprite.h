@@ -3,6 +3,7 @@
 
 #include "cdrawable.h"
 #include "ccollider.h"
+#include "csdlblitter.h"
 
 #include "rapidxml.hpp"
 
@@ -21,12 +22,17 @@ public:
 	int Draw() override;
 	int DrawFrame(int frameno);
 	void DrawCollisionPolygons(CBlitter *blitter);
+	
+	int GetAbsolutePosX() {return GetPosX() + Blitter_->GetOffsetX();}
+	int GetAbsolutePosY() {return GetPosY() + Blitter_->GetOffsetY();}
 
 protected:
 	int ReadConfig(const rapidxml::xml_node<> *node);
 
 private:
 	SDL_Texture *Texture_ = nullptr;
+	
+protected:
 	CSDLBlitter *Blitter_ = nullptr;
 };
 

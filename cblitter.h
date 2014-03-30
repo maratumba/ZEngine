@@ -17,10 +17,16 @@ public:
 	void MoveOffset(int dx, int dy) {ViewOffsetX_ += dx; ViewOffsetY_ += dy;}
 	int GetOffsetX() {return ViewOffsetX_;}
 	int GetOffsetY() {return ViewOffsetY_;}
+	int GetWidth() {return ViewWidth_;}
+	int GetHeight() {return ViewHeight_;}
 
 private:
 	int ViewOffsetX_ = 0;
 	int ViewOffsetY_ = 0;
+	
+protected:
+	int ViewWidth_ = 0;
+	int ViewHeight_ = 0;
 };
 
 #endif

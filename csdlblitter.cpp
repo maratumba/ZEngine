@@ -15,6 +15,9 @@ CSDLBlitter::~CSDLBlitter()
 
 int CSDLBlitter::Init(int width, int height, int bpp)
 {
+	ViewWidth_ = width;
+	ViewHeight_ = height;
+
 	std::cout << "initing sdl2" << std::endl;
 
 	if(SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -28,7 +31,7 @@ int CSDLBlitter::Init(int width, int height, int bpp)
 	Window_ = SDL_CreateWindow("ZEngine",
 			SDL_WINDOWPOS_CENTERED,
 			SDL_WINDOWPOS_CENTERED,
-			width,height,
+			ViewWidth_,ViewHeight_,
 			SDL_WINDOW_SHOWN);
 	if(!Window_)
 	{

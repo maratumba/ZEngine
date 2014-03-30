@@ -41,17 +41,18 @@ CZEngine::CZEngine()
 	stickman->StartAnimation();
 	Sprites_.push_back(stickman);
 
-	CCharacter *guybrush = new CCharacter(3, dynamic_cast<CSDLBlitter*>(blitter), Sprites_);
+	Guybrush_ = new CCharacter(3, dynamic_cast<CSDLBlitter*>(blitter), Sprites_);
 	c = "./data/guybrush.xml";
-	guybrush->ReadConfig(c);
-	//guybrush->Init(f, 100, 0.15);
-	guybrush->SetPos(300, 400);
-	Sprites_.push_back(guybrush);
-	InputSinks_.push_back(guybrush);
+	Guybrush_->ReadConfig(c);
+	//Guybrush_->Init(f, 100, 0.15);
+	Guybrush_->SetPos(300, 400);
+	Sprites_.push_back(Guybrush_);
+	InputSinks_.push_back(Guybrush_);
 }
 
 CZEngine::~CZEngine()
 {
+	Guybrush_ = nullptr;
 	for(auto &i : Sprites_)
 	{
 		delete i;
@@ -114,10 +115,6 @@ void CZEngine::OnEvent(SDL_Event *event)
 			switch(event->key.keysym.sym)
 			{
 			case SDLK_ESCAPE: isRunning_ = false; break;
-			case SDLK_w: blitter->MoveOffset(0,10); break;
-			case SDLK_s: blitter->MoveOffset(0,-10); break;
-			case SDLK_a: blitter->MoveOffset(10,0); break;
-			case SDLK_d: blitter->MoveOffset(-10,0); break;
 			default: break;
 			}
 		}break;
@@ -145,6 +142,26 @@ void CZEngine::Render()
 
 void CZEngine::Loop()
 {
+		int dX = 60 * 5;
+		int dY = 60 * 3;
+		
+		int minX = blitter->GetWidth() / 2 - dX;
+		int minY = blitter->GetHeight() / 2 - dY;
+
+		int maxX = blitter->GetWidth() / 2 + dX;
+		int maxY = blitter->GetHeight() / 2 + dY;
+		
+		int guyX = Guybrush_->GetAbsolutePosX() + (Guybrush_->GetSizeX() / 2);
+		int guyY = Guybrush_->GetAbsolutePosY() + (Guybrush_->GetSizeY() / 2);
+		
+		if(guyX < minX)
+			blitter->MoveOffset(3, 0);
+		if(guyX > maxX)
+			blitter->MoveOffset(-3, 0);
+		if(guyY < minY)
+			blitter->MoveOffset(0, 3);
+		if(guyY > maxY)
+			blitter->MoveOffset(0, -3);
 }
 
 

@@ -87,17 +87,34 @@ int CSDLSprite::Draw()
 
 int CSDLSprite::DrawFrame(int frameno)
 {
-	SDL_Rect srcrect {GetSizeX()*frameno, 0, GetSizeX(), GetSizeY()};
+	int srcX = GetSizeX() * frameno;
+	int srcY = 0;
+	int srcW = GetSizeX();
+	int srcH = GetSizeY();
 	
-	std::cout << "Offset: " << Blitter_->GetOffsetX() << ", " << Blitter_->GetOffsetY() << std::endl;
-	
-	SDL_Rect destrect {
-			GetPosX() + Blitter_->GetOffsetX(),
-			GetPosY() + Blitter_->GetOffsetY(),
-			GetSizeX()*GetScaleX(),
-			GetSizeY()*GetScaleY()};
+	int dstX = GetPosX() + Blitter_->GetOffsetX();
+	int dstY = GetPosY() + Blitter_->GetOffsetY();
+	int dstW = GetSizeX() * GetScaleX();
+	int dstH = GetSizeY() * GetScaleY();
 
-	SDL_RenderCopy(Blitter_->GetRenderer(), Texture_, &srcrect, &destrect);
+/*
+	if(dstX < 0)
+	{
+		srcX += -dstX;
+		dstX = 0;
+	}
+	
+	if(dstY < 0)
+	{
+		srcY += -dstY;
+		dstY = 0;
+	}
+*/
+
+	SDL_Rect srcrect {srcX, srcY, srcW, srcH};
+	SDL_Rect dstrect {dstX, dstY, dstW, dstH};
+
+	SDL_RenderCopy(Blitter_->GetRenderer(), Texture_, &srcrect, &dstrect);
 
 	return 0;
 }
