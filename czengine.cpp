@@ -7,13 +7,6 @@
 #include <iostream>
 #include <unistd.h>
 
-int main()
-{
-	CZEngine e;
-	e.Run();
-	return 0;
-}
-
 CZEngine::CZEngine()
 {
 	isRunning_ = false;
@@ -142,8 +135,8 @@ void CZEngine::Render()
 
 void CZEngine::Loop()
 {
-		int dX = 60 * 5;
-		int dY = 60 * 3;
+		int dX = 20 * 5;
+		int dY = 20 * 3;
 		
 		int minX = blitter->GetWidth() / 2 - dX;
 		int minY = blitter->GetHeight() / 2 - dY;

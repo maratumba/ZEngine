@@ -17,7 +17,15 @@ bool CCollider::CollidesWith(tPoint thisPos, CCollider &otherCollider, tPoint ot
 		{
 			bool rvl = PolygonCollision(thisPos, poly1, otherPos, poly2);
 			if(rvl)
+			{/*
+				std::cout << "collision: " << std::endl;
+				std::cout << "\tpoly this: " << thisPos.first << ", " << thisPos.second << std::endl;
+				DumpPolygon(poly1);
+				std::cout << "\tpoly other: " << otherPos.first << ", " << otherPos.second << std::endl;
+				DumpPolygon(poly2);
+				*/
 				return rvl;
+			}
 		}
 	}
 	return false;
@@ -27,11 +35,16 @@ void CCollider::DumpCollisionPolygons()
 {
 	for(auto &poly : CollisionPolygons_)
 	{
+		DumpPolygon(poly);
+	}
+}
+
+void CCollider::DumpPolygon(const CPolygon &poly)
+{
 		for(auto &point : poly.Points_)
 		{
 			std::cout << "Point: " << point.first << ", " << point.second << std::endl;
 		}
-	}
 }
 
 int CCollider::DotProduct(tPoint p1, tPoint p2)
@@ -42,20 +55,19 @@ int CCollider::DotProduct(tPoint p1, tPoint p2)
 void CCollider::ProjectPolygon(tPoint axis, tPoint pos, const CPolygon &polygon, float &min, float &max)
 {
 	// To project a point on an axis use the dot product
-	tPoint point0 = polygon.Points_[0];
-	point0.first += pos.first;
-	point0.second += pos.second;
+	tPoint tmpPoint;
+	tmpPoint.first = polygon.Points_[0].first + pos.first;
+	tmpPoint.second = polygon.Points_[0].second + pos.second;
 	
-	float dotProduct = DotProduct(axis, polygon.Points_[0]);
+	float dotProduct = DotProduct(axis, tmpPoint);
 	min = dotProduct;
 	max = dotProduct;
 	for (auto &p :  polygon.Points_)
 	{
-		tPoint pp = p;
-		pp.first += pos.first;
-		pp.second += pos.second;
+		tmpPoint.first = p.first + pos.first;
+		tmpPoint.second = p.second + pos.second;
 		
-		dotProduct = DotProduct(axis, pp);
+		dotProduct = DotProduct(axis, tmpPoint);
 		if (dotProduct < min)
 		{
 			min = dotProduct;
@@ -119,7 +131,7 @@ bool CCollider::PolygonCollision(tPoint posA, CPolygon polygonA, tPoint posB, CP
 		// ===== 1. Find if the polygons are currently intersecting =====
 
 		// Find the axis perpendicular to the current edge
-		tPoint axis = {-edge.second + posY, edge.first + posX};
+		tPoint axis = {-(edge.second + posY), edge.first + posX};
 		Normalize(axis);
 
 		// Find the projection of the polygon on the current axis

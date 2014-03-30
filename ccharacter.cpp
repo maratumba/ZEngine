@@ -66,12 +66,16 @@ bool CCharacter::Collides()
 			continue;
 
 		tPoint thisPos;
+		thisPos.first = this->GetPosX();
+		thisPos.second = this->GetPosY();
 		tPoint otherPos;
+		otherPos.first = coll->GetPosX();
+		otherPos.second = coll->GetPosY();
 		
 		bool rvl = CollidesWith(thisPos, *coll, otherPos);
 		if(rvl)
 		{
-			std::cout << "This " << GetId() << " collides with " << coll->GetId() << std::endl;
+			//std::cout << "This " << GetId() << " collides with " << coll->GetId() << std::endl;
 			return true;
 		}
 	}
@@ -111,9 +115,8 @@ void CCharacter::SetAnimState(eAnimState state)
 
 void CCharacter::UpdateKeybState(const unsigned char *keys)
 {
-
 		if(this->Collides())
-			std::cout << "Collides" << std::endl;
+			;//std::cout << "Collides" << std::endl;
 
 	if(keys[SDL_SCANCODE_RIGHT] && keys[SDL_SCANCODE_UP])
 	{

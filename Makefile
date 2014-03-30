@@ -10,10 +10,31 @@ RAPIDXMLINCS = -I./rapidxml
 
 INCS = $(SDLINCS) $(RAPIDXMLINCS)
 
-OBJS=czengine.o cblitter.o csdlblitter.o cdrawable.o csdlsprite.o \
-	 cspriteanim.o csdlinputsink.o ccharacter.o cpolygon.o ccollider.o
+ZENGINE_OBJS = \
+	czengine.o \
+	cblitter.o \
+	csdlblitter.o \
+	cdrawable.o \
+	csdlsprite.o \
+	cspriteanim.o \
+	csdlinputsink.o \
+	ccharacter.o \
+	cpolygon.o \
+	ccollider.o
 
-TARGET=ZEngine
+ZENGINE_TARGET = ZEngine
+
+ 
+Z2K_OBJS = cz2k.o
+Z2K_TARGET = Z2k
+
+all: $(Z2K_TARGET) $(ZENGINE_TARGET)
+
+ZEngine: $(ZENGINE_OBJS)
+	$(CXX) zenginemain.cpp $(ZENGINE_OBJS) -o $(ZENGINE_TARGET) $(CXXFLAGS) $(SDLLIBS)
+
+Z2k: $(Z2K_OBJS) $(ZENGINE_OBJS)
+	$(CXX) z2kmain.cpp $(ZENGINE_OBJS) $(Z2K_OBJS) -o $(Z2K_TARGET) $(CXXFLAGS) $(SDLLIBS)
 
 %.o: %.cpp %.h
 	$(CXX) $(CXXFLAGS) $(INCS) -DLINUX -c $<
@@ -21,10 +42,5 @@ TARGET=ZEngine
 %.o: %.c %.h
 	$(CC) $(CCFLAGS) $(INCS) -DLINUX -c $<
 
-ZEngine: $(OBJS)
-	$(CXX) $(OBJS) -o $(TARGET) $(CXXFLAGS) $(SDLLIBS)
-
-all: $(TARGET)
-
 clean:
-	rm *.o $(TARGET)
+	rm *.o $(ZENGINE_TARGET) $(Z2K_TARGET)

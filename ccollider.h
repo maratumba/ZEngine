@@ -22,6 +22,8 @@ protected:
 	int Id_;
 	std::vector<CPolygon> CollisionPolygons_;
 
+	void DumpPolygon(const CPolygon &poly);
+	
 	int DotProduct(tPoint p1, tPoint p2);
 	// Calculate the projection of a polygon on an axis
 	// and returns it as a [min, max] interval
