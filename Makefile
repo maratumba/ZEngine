@@ -21,20 +21,21 @@ ZENGINE_OBJS = \
 	ccharacter.o \
 	cpolygon.o \
 	ccollider.o
-
+ZENGINE_MAIN = zenginemain.o
 ZENGINE_TARGET = ZEngine
 
  
-Z2K_OBJS = cz2k.o
+Z2K_OBJS = cz2k.o cz2kboard.o
+Z2K_MAIN = z2kmain.o
 Z2K_TARGET = Z2k
 
-all: $(Z2K_TARGET) $(ZENGINE_TARGET)
+all: $(ZENGINE_TARGET) $(Z2K_TARGET)
 
-ZEngine: $(ZENGINE_OBJS)
-	$(CXX) zenginemain.cpp $(ZENGINE_OBJS) -o $(ZENGINE_TARGET) $(CXXFLAGS) $(SDLLIBS)
+ZEngine: $(ZENGINE_OBJS) $(ZENGINE_MAIN)
+	$(CXX) $(ZENGINE_MAIN) $(ZENGINE_OBJS) -o $(ZENGINE_TARGET) $(CXXFLAGS) $(SDLLIBS)
 
-Z2k: $(Z2K_OBJS) $(ZENGINE_OBJS)
-	$(CXX) z2kmain.cpp $(ZENGINE_OBJS) $(Z2K_OBJS) -o $(Z2K_TARGET) $(CXXFLAGS) $(SDLLIBS)
+Z2k: $(Z2K_OBJS) $(ZENGINE_OBJS) $(Z2K_MAIN)
+	$(CXX) $(Z2K_MAIN) $(ZENGINE_OBJS) $(Z2K_OBJS) -o $(Z2K_TARGET) $(CXXFLAGS) $(SDLLIBS)
 
 %.o: %.cpp %.h
 	$(CXX) $(CXXFLAGS) $(INCS) -DLINUX -c $<

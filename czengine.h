@@ -6,7 +6,6 @@
 union SDL_Event;
 
 class CBlitter;
-class CCollider;
 class CSDLSprite;
 class CSDLInputSink;
 class CCharacter;
@@ -17,6 +16,7 @@ public:
 	CZEngine();
 	~CZEngine();
 	void Run();
+
 private:
 	bool Init();
 	void Quit();
@@ -25,7 +25,7 @@ private:
 	void Render();
 	void Loop();
 
-	bool isRunning_;
+	bool isRunning_ = false;
 	CBlitter *blitter = nullptr;
 	CCharacter *Guybrush_ = nullptr;
 	

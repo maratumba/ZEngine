@@ -3,6 +3,6 @@
 int main()
 {
 	CZ2k e;
-	//e.Run();
+	e.Run();
 	return 0;
 }

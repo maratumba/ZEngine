@@ -8,11 +8,8 @@
 #include <unistd.h>
 
 CZEngine::CZEngine()
+	:blitter(new CSDLBlitter)
 {
-	isRunning_ = false;
-	blitter = new CSDLBlitter;
-
-
 	if(!Init())
 		return;
 
