@@ -21,6 +21,9 @@ public:
 	bool MoveUp();
 	bool MoveDown();
 
+	inline int GetAt(int col, int row) {return Data_[row * CZ2K_BOARD_SIZE + col];}
+	inline void SetAt(int col, int row, int val) {Data_[row * CZ2K_BOARD_SIZE + col] = val;}
+	
 private:
 	int Data_[CZ2K_BOARD_SIZE * CZ2K_BOARD_SIZE] = {0};
 

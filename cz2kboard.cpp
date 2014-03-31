@@ -7,6 +7,8 @@
 CZ2kBoard::CZ2kBoard()
 {
 	memset(Data_, 0, sizeof(int) * CZ2K_BOARD_SIZE * CZ2K_BOARD_SIZE);
+	
+	AddRandom();
 }
 
 void CZ2kBoard::Draw(std::map<int, CSDLSprite*> &Sprites_)
@@ -17,7 +19,8 @@ void CZ2kBoard::Draw(std::map<int, CSDLSprite*> &Sprites_)
 		int col = i % CZ2K_BOARD_SIZE;
 		int val = Data_[i];
 		
-		CSDLSprite *s = Sprites_.at(val);
+		auto it = Sprites_.find(val);
+		CSDLSprite *s = (*it).second;
 		if(s)
 		{
 			s->SetPos(col * 128, row * 96);
@@ -64,51 +67,131 @@ bool CZ2kBoard::AddRandom()
 	assert(i < CZ2K_BOARD_SIZE*CZ2K_BOARD_SIZE);
 	assert(Data_[i] == 0);
 
-	Data_[i] = 1;
+	Data_[i] = 2;
 	
 	return true;
 }
 
 bool CZ2kBoard::MoveRight()
 {
-	int cnt = CountEmpty();
-	if(cnt == 0)
-		return false;
+	bool needadd = false;
 	
-	AddRandom();
+	//summ up
+	for(int row = 0; row < CZ2K_BOARD_SIZE; ++row)
+	{
+		for(int col = CZ2K_BOARD_SIZE-1; col > 0; --col)
+		{
+			if(GetAt(col, row) > 0)
+			{
+				int i = col-1;
+				while((i > 0) && (GetAt(i, row) == 0))
+					--i;
+				
+				if(GetAt(col, row) == GetAt(i, row))
+				{
+					int val = GetAt(col, row);
+					SetAt(col, row, val*2);
+					SetAt(i, row, 0);
+					
+					needadd = true;
+				}
+			}
+		}
+	}
 	
-	return true;
+	//push
+	for(int row = 0; row < CZ2K_BOARD_SIZE; ++row)
+	{
+		for(int col = CZ2K_BOARD_SIZE-1; col > 0; --col)
+		{
+			if(GetAt(col, row) == 0)
+			{
+				int i = col-1;
+				while((i > 0) && (GetAt(i, row) == 0))
+					--i;
+				
+				if(GetAt(i, row) != 0)
+				{
+					int val = GetAt(i, row);
+					SetAt(col, row, val);
+					SetAt(i, row, 0);
+					
+					needadd = true;
+				}
+			}
+		}
+	}
+	
+	bool rvl = true;
+	if(needadd)
+		rvl = AddRandom();
+	
+	return rvl;
 }
 
 bool CZ2kBoard::MoveLeft()
 {
-	int cnt = CountEmpty();
-	if(cnt == 0)
-		return false;
+	bool needadd = false;
+	
+	//summ up
+	for(int row = 0; row < CZ2K_BOARD_SIZE; ++row)
+	{
+		for(int col = 0; col < CZ2K_BOARD_SIZE-1; ++col)
+		{
+			if(GetAt(col, row) > 0)
+			{
+				int i = col + 1;
+				while((i < CZ2K_BOARD_SIZE-1) && (GetAt(i, row) == 0))
+					++i;
+				
+				if(GetAt(col, row) == GetAt(i, row))
+				{
+					int val = GetAt(col, row);
+					SetAt(col, row, val*2);
+					SetAt(i, row, 0);
+					
+					needadd = true;
+				}
+			}
+		}
+	}
 
-	AddRandom();
+	//push
+	for(int row = 0; row < CZ2K_BOARD_SIZE; ++row)
+	{
+		for(int col = 0; col < CZ2K_BOARD_SIZE-1; ++col)
+		{
+			if(GetAt(col, row) == 0)
+			{
+				int i = col+1;
+				while((i < CZ2K_BOARD_SIZE-1) && (GetAt(i, row) == 0))
+					++i;
+				
+				if(GetAt(i, row) != 0)
+				{
+					int val = GetAt(i, row);
+					SetAt(col, row, val);
+					SetAt(i, row, 0);
+					
+					needadd = true;
+				}
+			}
+		}
+	}
 
-	return true;
+	bool rvl = true;
+	if(needadd)
+		rvl = AddRandom();
+	
+	return rvl;
 }
 
 bool CZ2kBoard::MoveUp()
 {
-	int cnt = CountEmpty();
-	if(cnt == 0)
-		return false;
-
-	AddRandom();
-
-	return true;
+	return AddRandom();
 }
 
 bool CZ2kBoard::MoveDown()
 {
-	int cnt = CountEmpty();
-	if(cnt == 0)
-		return false;
-
-	AddRandom();
-
-	return true;
+	return AddRandom();
 }

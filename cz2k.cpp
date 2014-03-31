@@ -22,11 +22,25 @@ CZ2k::CZ2k()
 	s->LoadImage(f);
 	Sprites_.insert(std::pair<int, CSDLSprite*>(0, s));
 
-	f = "./data/1.bmp";
-	s = new CSDLSprite(1, dynamic_cast<CSDLBlitter*>(Blitter_));
+	f = "./data/2.bmp";
+	s = new CSDLSprite(2, dynamic_cast<CSDLBlitter*>(Blitter_));
 	s->LoadImage(f);
-	Sprites_.insert(std::pair<int, CSDLSprite*>(1, s));
+	Sprites_.insert(std::pair<int, CSDLSprite*>(2, s));
 
+	f = "./data/4.bmp";
+	s = new CSDLSprite(4, dynamic_cast<CSDLBlitter*>(Blitter_));
+	s->LoadImage(f);
+	Sprites_.insert(std::pair<int, CSDLSprite*>(4, s));
+
+	f = "./data/8.bmp";
+	s = new CSDLSprite(8, dynamic_cast<CSDLBlitter*>(Blitter_));
+	s->LoadImage(f);
+	Sprites_.insert(std::pair<int, CSDLSprite*>(8, s));
+
+	f = "./data/16.bmp";
+	s = new CSDLSprite(16, dynamic_cast<CSDLBlitter*>(Blitter_));
+	s->LoadImage(f);
+	Sprites_.insert(std::pair<int, CSDLSprite*>(16, s));
 }
 
 CZ2k::~CZ2k()
