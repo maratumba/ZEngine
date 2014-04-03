@@ -188,10 +188,114 @@ bool CZ2kBoard::MoveLeft()
 
 bool CZ2kBoard::MoveUp()
 {
-	return AddRandom();
+	bool needadd = false;
+	
+	//summ up
+	for(int col = 0; col < CZ2K_BOARD_SIZE; ++col)
+	{
+		for(int row = 0; row < CZ2K_BOARD_SIZE-1; ++row)
+		{
+			if(GetAt(col, row) > 0)
+			{
+				int i = row + 1;
+				while((i < CZ2K_BOARD_SIZE-1) && (GetAt(col, i) == 0))
+					++i;
+				
+				if(GetAt(col, row) == GetAt(col, i))
+				{
+					int val = GetAt(col, row);
+					SetAt(col, row, val*2);
+					SetAt(col, i, 0);
+					
+					needadd = true;
+				}
+			}
+		}
+	}
+
+	//push
+	for(int col = 0; col < CZ2K_BOARD_SIZE; ++col)
+	{
+		for(int row = 0; row < CZ2K_BOARD_SIZE-1; ++row)
+		{
+			if(GetAt(col, row) == 0)
+			{
+				int i = row+1;
+				while((i < CZ2K_BOARD_SIZE-1) && (GetAt(col, i) == 0))
+					++i;
+				
+				if(GetAt(col, i) != 0)
+				{
+					int val = GetAt(col, i);
+					SetAt(col, row, val);
+					SetAt(col, i, 0);
+					
+					needadd = true;
+				}
+			}
+		}
+	}
+
+	bool rvl = true;
+	if(needadd)
+		rvl = AddRandom();
+	
+	return rvl;
 }
 
 bool CZ2kBoard::MoveDown()
 {
-	return AddRandom();
+	bool needadd = false;
+	
+	//summ up
+	for(int col = 0; col < CZ2K_BOARD_SIZE; ++col)
+	{
+		for(int row = CZ2K_BOARD_SIZE-1; row > 0; --row)
+		{
+			if(GetAt(col, row) > 0)
+			{
+				int i = row-1;
+				while((i > 0) && (GetAt(col, i) == 0))
+					--i;
+				
+				if(GetAt(col, row) == GetAt(col, i))
+				{
+					int val = GetAt(col, row);
+					SetAt(col, row, val*2);
+					SetAt(col, i, 0);
+					
+					needadd = true;
+				}
+			}
+		}
+	}
+
+		//push
+	for(int col = 0; col < CZ2K_BOARD_SIZE; ++col)
+	{
+		for(int row = CZ2K_BOARD_SIZE-1; row > 0; --row)
+		{
+			if(GetAt(col, row) == 0)
+			{
+				int i = row-1;
+				while((i > 0) && (GetAt(col, i) == 0))
+					--i;
+				
+				if(GetAt(col, i) != 0)
+				{
+					int val = GetAt(col, i);
+					SetAt(col, row, val);
+					SetAt(col, i, 0);
+					
+					needadd = true;
+				}
+			}
+		}
+	}
+	
+	bool rvl = true;
+	if(needadd)
+		rvl = AddRandom();
+	
+	return rvl;
 }

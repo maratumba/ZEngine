@@ -47,6 +47,8 @@ CZ2k::~CZ2k()
 {
 	delete Board_;
 	delete Blitter_;
+	for(auto i: Sprites_)
+		delete i.second;
 }
 
 void CZ2k::Run()
@@ -74,7 +76,7 @@ void CZ2k::Run()
 
 bool CZ2k::Init()
 {
-	if(Blitter_->Init(1024, 768, 24) != 0)
+	if(Blitter_->Init(1024/2, 768/2, 24) != 0)
 		return false;
 	return true;
 }
