@@ -23,7 +23,7 @@ void CZ2kBoard::Draw(std::map<int, CSDLSprite*> &Sprites_)
 		CSDLSprite *s = (*it).second;
 		if(s)
 		{
-			s->SetPos(col * 128, row * 96);
+			s->SetPos(col * 128, row * 128);
 			s->Draw();
 		}
 		else

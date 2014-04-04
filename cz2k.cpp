@@ -41,6 +41,41 @@ CZ2k::CZ2k()
 	s = new CSDLSprite(16, dynamic_cast<CSDLBlitter*>(Blitter_));
 	s->LoadImage(f);
 	Sprites_.insert(std::pair<int, CSDLSprite*>(16, s));
+	
+	f = "./data/32.bmp";
+	s = new CSDLSprite(32, dynamic_cast<CSDLBlitter*>(Blitter_));
+	s->LoadImage(f);
+	Sprites_.insert(std::pair<int, CSDLSprite*>(32, s));
+	
+	f = "./data/64.bmp";
+	s = new CSDLSprite(64, dynamic_cast<CSDLBlitter*>(Blitter_));
+	s->LoadImage(f);
+	Sprites_.insert(std::pair<int, CSDLSprite*>(64, s));
+	
+	f = "./data/128.bmp";
+	s = new CSDLSprite(128, dynamic_cast<CSDLBlitter*>(Blitter_));
+	s->LoadImage(f);
+	Sprites_.insert(std::pair<int, CSDLSprite*>(128, s));
+	
+	f = "./data/256.bmp";
+	s = new CSDLSprite(256, dynamic_cast<CSDLBlitter*>(Blitter_));
+	s->LoadImage(f);
+	Sprites_.insert(std::pair<int, CSDLSprite*>(256, s));
+	
+	f = "./data/512.bmp";
+	s = new CSDLSprite(512, dynamic_cast<CSDLBlitter*>(Blitter_));
+	s->LoadImage(f);
+	Sprites_.insert(std::pair<int, CSDLSprite*>(512, s));
+	
+	f = "./data/1024.bmp";
+	s = new CSDLSprite(1024, dynamic_cast<CSDLBlitter*>(Blitter_));
+	s->LoadImage(f);
+	Sprites_.insert(std::pair<int, CSDLSprite*>(1024, s));
+	
+	f = "./data/2048.bmp";
+	s = new CSDLSprite(2048, dynamic_cast<CSDLBlitter*>(Blitter_));
+	s->LoadImage(f);
+	Sprites_.insert(std::pair<int, CSDLSprite*>(2048, s));
 }
 
 CZ2k::~CZ2k()
@@ -76,7 +111,7 @@ void CZ2k::Run()
 
 bool CZ2k::Init()
 {
-	if(Blitter_->Init(1024/2, 768/2, 24) != 0)
+	if(Blitter_->Init(1024/2, 1024/2, 24) != 0)
 		return false;
 	return true;
 }
