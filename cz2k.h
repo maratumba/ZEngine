@@ -1,7 +1,6 @@
 #ifndef CZ2K_H
 #define CZ2K_H
 
-#include "csdlinputsink.h"
 #include <map>
 
 union SDL_Event;
@@ -12,7 +11,7 @@ class CSDLInputSink;
 
 class CZ2kBoard;
 
-class CZ2k: public CSDLInputSink
+class CZ2k
 {
 public:
 	CZ2k();
@@ -26,8 +25,6 @@ private:
 	void OnEvent(SDL_Event *event);
 	void Render();
 	void Loop();
-
-	void UpdateKeybState(const unsigned char *keys) override;
 
 	bool isRunning_ = false;
 	CBlitter *Blitter_ = nullptr;

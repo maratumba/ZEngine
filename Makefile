@@ -1,4 +1,4 @@
-CXXFLAGS=-Wall -Werror -O2 -ggdb -lstdc++ -std=gnu++11
+CXXFLAGS=-Wall -Werror -Wextra -Wno-ignored-qualifiers -O2 -ggdb -lstdc++ -std=gnu++11
 CXX=g++
 CC=gcc
 DEST=/usr/local/games

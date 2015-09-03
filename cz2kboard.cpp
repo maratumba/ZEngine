@@ -18,7 +18,49 @@ void CZ2kBoard::Draw(std::map<int, CSDLSprite*> &Sprites_)
 		int row = i / CZ2K_BOARD_SIZE;
 		int col = i % CZ2K_BOARD_SIZE;
 		int val = Data_[i];
-		
+
+		DrawTile(col, row, val, Sprites_);
+	}
+	
+	auto itn = NewTiles_.begin();
+	while(itn != NewTiles_.end())
+	{
+		auto &i = *itn;
+		if(i.scale > 1)
+		{
+			std::cout << "new tile " << i.val << " scale " << i.scale << std::endl;
+
+			int row = i.pos / CZ2K_BOARD_SIZE;
+			int col = i.pos % CZ2K_BOARD_SIZE;
+
+			DrawTile(col, row, i.val, Sprites_);
+
+/*
+			auto it = Sprites_.find(i.val);
+			CSDLSprite *s = (*it).second;
+			if(s)
+			{
+				s->SetScale(i.scale, i.scale);
+				s->SetPos(col * 128, row * 128);
+				s->Draw();
+			}
+			else
+				std::cout << "sprite for " << i.val << " not found" << std::endl;
+*/
+			i.scale /= 2;
+			if(i.scale <= 1)
+			{
+				Data_[i.pos] = i.val;
+				itn = NewTiles_.erase(itn);
+			}
+			else
+				++itn;
+		}
+	}
+}
+
+void CZ2kBoard::DrawTile(int col, int row, int val, std::map<int, CSDLSprite*> &Sprites_)
+{
 		auto it = Sprites_.find(val);
 		CSDLSprite *s = (*it).second;
 		if(s)
@@ -28,7 +70,6 @@ void CZ2kBoard::Draw(std::map<int, CSDLSprite*> &Sprites_)
 		}
 		else
 			std::cout << "sprite for " << val << " not found" << std::endl;
-	}
 }
 
 int CZ2kBoard::CountEmpty()
@@ -67,7 +108,10 @@ bool CZ2kBoard::AddRandom()
 	assert(i < CZ2K_BOARD_SIZE*CZ2K_BOARD_SIZE);
 	assert(Data_[i] == 0);
 
-	Data_[i] = 2;
+	//Data_[i] = 2;
+	tNewTile t;
+	t.pos = i;
+	NewTiles_.push_back(t);
 	
 	return true;
 }

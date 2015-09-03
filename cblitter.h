@@ -27,6 +27,7 @@ private:
 protected:
 	int ViewWidth_ = 0;
 	int ViewHeight_ = 0;
+	int ViewBpp_ = 0;
 };
 
 #endif

@@ -7,6 +7,7 @@ void CPolygon::AddPoint(tPoint &p)
 
 bool CPolygon::CollidesWith(CPolygon &poly)
 {
+	(void)poly;
 	return true;
 }
 

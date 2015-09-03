@@ -116,7 +116,7 @@ void CCharacter::SetAnimState(eAnimState state)
 void CCharacter::UpdateKeybState(const unsigned char *keys)
 {
 		if(this->Collides())
-			;//std::cout << "Collides" << std::endl;
+		{;}//std::cout << "Collides" << std::endl;
 
 	if(keys[SDL_SCANCODE_RIGHT] && keys[SDL_SCANCODE_UP])
 	{

@@ -60,7 +60,7 @@ int CSpriteAnim::ReadConfig(const rapidxml::xml_node<> *node)
 	return rvl;
 }
 
-int CSpriteAnim::Init(std::string &file, int framewidth, double frameperiod)
+int CSpriteAnim::Init(std::string &file, int framewidth, double frameperiod, bool looping)
 {
 	int rvl = CSDLSprite::LoadImage(file);
 	if(rvl != 0)
@@ -68,6 +68,7 @@ int CSpriteAnim::Init(std::string &file, int framewidth, double frameperiod)
 
 	FramePeriod_ = frameperiod;
 	FrameWidth_ = framewidth;
+	Looping_ = looping;
 
 	NumFrames_ = SizeX_ / FrameWidth_;
 	SizeX_ = FrameWidth_;
@@ -97,7 +98,12 @@ int CSpriteAnim::Draw()
 		{
 			CurrentFrame_++;
 			if(CurrentFrame_ > LastFrame_)
-				CurrentFrame_ = FirstFrame_;
+			{
+				if(Looping_)
+					CurrentFrame_ = FirstFrame_;
+				else
+					Running_ = false;
+			}
 		}
 	}
 

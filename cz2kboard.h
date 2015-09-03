@@ -2,6 +2,7 @@
 #define __CZ2KBOARD_H__
 
 #include <map>
+#include <list>
 
 class CBlitter;
 class CSDLSprite;
@@ -21,12 +22,26 @@ public:
 	bool MoveUp();
 	bool MoveDown();
 
-	inline int GetAt(int col, int row) {return Data_[row * CZ2K_BOARD_SIZE + col];}
-	inline void SetAt(int col, int row, int val) {Data_[row * CZ2K_BOARD_SIZE + col] = val;}
+	inline int GetAt(int col, int row) {return Data_[row * GetSize() + col];}
+	inline void SetAt(int col, int row, int val) {Data_[row * GetSize() + col] = val;}
+	
+	inline const int GetSize() {return (const int)CZ2K_BOARD_SIZE;}
 	
 private:
+	struct tNewTile
+	{
+		int pos = 0;
+		int scale = 8;
+		int val = 2;
+	};
+	
 	int Data_[CZ2K_BOARD_SIZE * CZ2K_BOARD_SIZE] = {0};
+	std::list<tNewTile> NewTiles_;
 
+	void DrawTile(int col, int row, int val, std::map<int, CSDLSprite*> &Sprites_);
+	/**
+	 * Adds one new number 2 tile to the board at a random place
+	 */
 	bool AddRandom();
 	int CountEmpty();
 };

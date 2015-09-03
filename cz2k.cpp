@@ -17,6 +17,11 @@ CZ2k::CZ2k()
 	std::string f;
 	CSDLSprite *s;
 
+	f = "./data/2Pop.bmp";
+	s = new CSDLSprite(-1, dynamic_cast<CSDLBlitter*>(Blitter_));
+	s->LoadImage(f);
+	Sprites_.insert(std::pair<int, CSDLSprite*>(-1, s));
+	
 	f = "./data/0.bmp";
 	s = new CSDLSprite(0, dynamic_cast<CSDLBlitter*>(Blitter_));
 	s->LoadImage(f);
@@ -80,8 +85,8 @@ CZ2k::CZ2k()
 
 CZ2k::~CZ2k()
 {
-	delete Board_;
 	delete Blitter_;
+	delete Board_;
 	for(auto i: Sprites_)
 		delete i.second;
 }
@@ -100,7 +105,6 @@ void CZ2k::Run()
 			usleep(1);
 		}
 
-		CheckKeyEvents();
 		Loop();
 		Render();
 
@@ -117,16 +121,6 @@ bool CZ2k::Init()
 }
 
 void CZ2k::Quit()
-{
-}
-
-void CZ2k::CheckKeyEvents()
-{
-	const unsigned char *keys = SDL_GetKeyboardState(NULL);
-	this->UpdateKeybState(keys);
-}
-
-void CZ2k::UpdateKeybState(const unsigned char *keys)
 {
 }
 

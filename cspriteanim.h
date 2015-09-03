@@ -15,7 +15,7 @@ public:
 
 	int Draw() override;
 
-	int Init(std::string &file, int framewidth, double frameperiod = 0);
+	int Init(std::string &file, int framewidth, double frameperiod = 0, bool looping = true);
 	void SetActiveFrames(int first, int last) {FirstFrame_ = first; LastFrame_ = last; CurrentFrame_ = first;}
 	void SetFramePeriod(double frameperiod) {FramePeriod_ = frameperiod;}
 	void StartAnimation() {Running_ = true;}
@@ -28,6 +28,7 @@ protected:
 
 private:
 	bool Running_ = false;
+	bool Looping_ = true;
 	int NumFrames_ = 0;
 	int FirstFrame_ = 0;
 	int LastFrame_ = 0;

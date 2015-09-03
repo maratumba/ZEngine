@@ -17,6 +17,7 @@ int CSDLBlitter::Init(int width, int height, int bpp)
 {
 	ViewWidth_ = width;
 	ViewHeight_ = height;
+	ViewBpp_ = bpp;
 
 	std::cout << "initing sdl2" << std::endl;
 
