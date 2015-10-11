@@ -1,5 +1,6 @@
 #include "cz2kboard.h"
 #include "csdlsprite.h"
+#include "canimatorscale.h"
 #include <string.h>
 #include <iostream>
 #include <random>
@@ -28,35 +29,27 @@ void CZ2kBoard::Draw(std::map<int, CSDLSprite*> &Sprites_)
 		auto &i = *itn;
 		if(i.scale > 1)
 		{
-			std::cout << "new tile " << i.val << " scale " << i.scale << std::endl;
-
 			int row = i.pos / CZ2K_BOARD_SIZE;
 			int col = i.pos % CZ2K_BOARD_SIZE;
 
-			DrawTile(col, row, i.val, Sprites_);
-
-/*
-			auto it = Sprites_.find(i.val);
+			std::cout << "new tile " << i.val << " scale " << i.scale << " at " << col << " " << row << std::endl;
+			
+			auto it = Sprites_.find(-1); //-1 is the pop sprite
 			CSDLSprite *s = (*it).second;
-			if(s)
-			{
-				s->SetScale(i.scale, i.scale);
-				s->SetPos(col * 128, row * 128);
-				s->Draw();
-			}
-			else
-				std::cout << "sprite for " << i.val << " not found" << std::endl;
-*/
-			i.scale /= 2;
-			if(i.scale <= 1)
-			{
-				Data_[i.pos] = i.val;
-				itn = NewTiles_.erase(itn);
-			}
-			else
-				++itn;
+			s->SetPos(col * 128, row * 128);
+			//s->SetScale(0,0);
+			if(Scaler_)
+				delete Scaler_;
+			Scaler_ = new CAnimatorScale(s, {0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.2, 1.1, 1});
+			Scaler_->StartAnimation();
+
+			Data_[i.pos] = i.val;
+			itn = NewTiles_.erase(itn);
 		}
 	}
+	
+	if(Scaler_)
+		Scaler_->GetDrawable()->Draw();
 }
 
 void CZ2kBoard::DrawTile(int col, int row, int val, std::map<int, CSDLSprite*> &Sprites_)
@@ -70,6 +63,18 @@ void CZ2kBoard::DrawTile(int col, int row, int val, std::map<int, CSDLSprite*> &
 		}
 		else
 			std::cout << "sprite for " << val << " not found" << std::endl;
+}
+
+void CZ2kBoard::Tick(int usec __attribute__((__unused__)))
+{
+	if(Scaler_ && !Scaler_->isRunning())
+	{
+		delete Scaler_;
+		Scaler_ = nullptr;
+	}
+
+	if(Scaler_)
+		Scaler_->Tick(usec);
 }
 
 int CZ2kBoard::CountEmpty()
@@ -112,7 +117,6 @@ bool CZ2kBoard::AddRandom()
 	tNewTile t;
 	t.pos = i;
 	NewTiles_.push_back(t);
-	
 	return true;
 }
 

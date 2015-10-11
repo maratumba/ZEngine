@@ -20,7 +20,9 @@ ZENGINE_OBJS = \
 	csdlinputsink.o \
 	ccharacter.o \
 	cpolygon.o \
-	ccollider.o
+	ccollider.o \
+	canimator.o \
+	canimatorscale.o
 ZENGINE_MAIN = zenginemain.o
 ZENGINE_TARGET = ZEngine
 

@@ -16,9 +16,9 @@ public:
 	int MoveUp(int dy)    {PosY_ -= dy; return PosY_;}
 	int MoveDown(int dy)  {PosY_ += dy; return PosY_;}
 
-	void SetScale(int sx, int sy) {ScaleX_ = sx; ScaleY_ = sy;}
-	int GetScaleX() {return ScaleX_;}
-	int GetScaleY() {return ScaleY_;}
+	void SetScale(double sx, double sy) {ScaleX_ = sx; ScaleY_ = sy;}
+	double GetScaleX() {return ScaleX_;}
+	double GetScaleY() {return ScaleY_;}
 
 	int GetSizeX() {return SizeX_;}
 	int GetSizeY() {return SizeY_;}
@@ -30,8 +30,8 @@ protected:
 	int SizeY_ = 0;
 
 private:
-	int ScaleX_ = 1;
-	int ScaleY_ = 1;
+	double ScaleX_ = 1;
+	double ScaleY_ = 1;
 	int PosX_ = 0;
 	int PosY_ = 0;
 };

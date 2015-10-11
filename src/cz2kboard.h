@@ -6,6 +6,7 @@
 
 class CBlitter;
 class CSDLSprite;
+class CAnimatorScale;
 
 #define CZ2K_BOARD_SIZE 4
 
@@ -16,6 +17,7 @@ public:
 	~CZ2kBoard() {;}
 	
 	void Draw(std::map<int, CSDLSprite*> &Sprites_);
+	void Tick(int usec);
 	
 	bool MoveRight();
 	bool MoveLeft();
@@ -37,6 +39,7 @@ private:
 	
 	int Data_[CZ2K_BOARD_SIZE * CZ2K_BOARD_SIZE] = {0};
 	std::list<tNewTile> NewTiles_;
+	CAnimatorScale *Scaler_ = nullptr;
 
 	void DrawTile(int col, int row, int val, std::map<int, CSDLSprite*> &Sprites_);
 	/**

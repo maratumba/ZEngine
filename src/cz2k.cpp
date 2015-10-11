@@ -17,11 +17,12 @@ CZ2k::CZ2k()
 	std::string f;
 	CSDLSprite *s;
 
-	f = "./data/2Pop.bmp";
+	//this sprite is used for the pop animation
+	f = "./data/2.bmp";
 	s = new CSDLSprite(-1, dynamic_cast<CSDLBlitter*>(Blitter_));
 	s->LoadImage(f);
 	Sprites_.insert(std::pair<int, CSDLSprite*>(-1, s));
-	
+
 	f = "./data/0.bmp";
 	s = new CSDLSprite(0, dynamic_cast<CSDLBlitter*>(Blitter_));
 	s->LoadImage(f);
@@ -105,7 +106,7 @@ void CZ2k::Run()
 			usleep(1);
 		}
 
-		Loop();
+		Loop(10000);
 		Render();
 
 		usleep(10000);
@@ -153,7 +154,8 @@ void CZ2k::Render()
 	Blitter_->Draw();
 }
 
-void CZ2k::Loop()
+void CZ2k::Loop(int usec)
 {
+	Board_->Tick(usec);
 }
 

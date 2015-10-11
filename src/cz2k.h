@@ -24,7 +24,7 @@ private:
 	void CheckKeyEvents();
 	void OnEvent(SDL_Event *event);
 	void Render();
-	void Loop();
+	void Loop(int usec);
 
 	bool isRunning_ = false;
 	CBlitter *Blitter_ = nullptr;
