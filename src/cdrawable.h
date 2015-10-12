@@ -4,6 +4,12 @@
 class CDrawable
 {
 public:
+	enum class AnchorPos
+	{
+		TOP_LEFT,
+		CENTER
+	};
+	
  	CDrawable() {;}
 	virtual ~CDrawable() {;}
 
@@ -23,9 +29,13 @@ public:
 	int GetSizeX() {return SizeX_;}
 	int GetSizeY() {return SizeY_;}
 
+	void SetAnchorPos(AnchorPos apos) {AnchorPos_ = apos;}
+	AnchorPos GetAnchorPos() {return AnchorPos_;}
+	
 	virtual int Draw() = 0;
 
 protected:
+	AnchorPos AnchorPos_ = AnchorPos::TOP_LEFT;
 	int SizeX_ = 0;
 	int SizeY_ = 0;
 
@@ -37,4 +47,3 @@ private:
 };
 
 #endif
-

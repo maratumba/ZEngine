@@ -21,6 +21,7 @@ CZ2k::CZ2k()
 	f = "./data/2.bmp";
 	s = new CSDLSprite(-1, dynamic_cast<CSDLBlitter*>(Blitter_));
 	s->LoadImage(f);
+	s->SetAnchorPos(CDrawable::AnchorPos::CENTER);
 	Sprites_.insert(std::pair<int, CSDLSprite*>(-1, s));
 
 	f = "./data/0.bmp";

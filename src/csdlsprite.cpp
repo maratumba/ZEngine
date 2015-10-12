@@ -92,24 +92,25 @@ int CSDLSprite::DrawFrame(int frameno)
 	int srcW = GetSizeX();
 	int srcH = GetSizeY();
 	
-	int dstX = GetPosX() + Blitter_->GetOffsetX();
-	int dstY = GetPosY() + Blitter_->GetOffsetY();
 	int dstW = GetSizeX() * GetScaleX();
 	int dstH = GetSizeY() * GetScaleY();
+	int dstX;
+	int dstY;
 
-/*
-	if(dstX < 0)
+	switch(AnchorPos_)
 	{
-		srcX += -dstX;
-		dstX = 0;
-	}
-	
-	if(dstY < 0)
-	{
-		srcY += -dstY;
-		dstY = 0;
-	}
-*/
+		case CDrawable::AnchorPos::TOP_LEFT:
+			dstX = GetPosX() + Blitter_->GetOffsetX();
+			dstY = GetPosY() + Blitter_->GetOffsetY();
+			break;
+		case CDrawable::AnchorPos::CENTER:
+			dstX = GetPosX() + Blitter_->GetOffsetX() + (srcW - dstW) / 2;
+			dstY = GetPosY() + Blitter_->GetOffsetY() + (srcH - dstH) / 2;
+			break;
+		default:
+			dstX = 0;
+			dstY = 0;
+	};
 
 	SDL_Rect srcrect {srcX, srcY, srcW, srcH};
 	SDL_Rect dstrect {dstX, dstY, dstW, dstH};

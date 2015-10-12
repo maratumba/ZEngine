@@ -27,25 +27,24 @@ void CZ2kBoard::Draw(std::map<int, CSDLSprite*> &Sprites_)
 	while(itn != NewTiles_.end())
 	{
 		auto &i = *itn;
-		if(i.scale > 1)
-		{
-			int row = i.pos / CZ2K_BOARD_SIZE;
-			int col = i.pos % CZ2K_BOARD_SIZE;
 
-			std::cout << "new tile " << i.val << " scale " << i.scale << " at " << col << " " << row << std::endl;
-			
-			auto it = Sprites_.find(-1); //-1 is the pop sprite
-			CSDLSprite *s = (*it).second;
-			s->SetPos(col * 128, row * 128);
-			//s->SetScale(0,0);
-			if(Scaler_)
-				delete Scaler_;
-			Scaler_ = new CAnimatorScale(s, {0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.2, 1.1, 1});
-			Scaler_->StartAnimation();
+		int row = i.pos / CZ2K_BOARD_SIZE;
+		int col = i.pos % CZ2K_BOARD_SIZE;
 
-			Data_[i.pos] = i.val;
-			itn = NewTiles_.erase(itn);
-		}
+		std::cout << "new tile " << i.val << " at " << col << " " << row << std::endl;
+		
+		auto it = Sprites_.find(-1); //-1 is the pop sprite
+		CSDLSprite *s = (*it).second;
+		s->SetPos(col * 128, row * 128);
+
+		if(Scaler_)
+			delete Scaler_;
+
+		Scaler_ = new CAnimatorScale(s, {0.7, 0.8, 0.9, 1, 1.15, 1.3, 1.15, 1});
+		Scaler_->StartAnimation();
+
+		Data_[i.pos] = i.val;
+		itn = NewTiles_.erase(itn);
 	}
 	
 	if(Scaler_)

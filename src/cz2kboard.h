@@ -33,7 +33,6 @@ private:
 	struct tNewTile
 	{
 		int pos = 0;
-		int scale = 8;
 		int val = 2;
 	};
 	
