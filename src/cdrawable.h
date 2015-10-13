@@ -33,6 +33,7 @@ public:
 	AnchorPos GetAnchorPos() {return AnchorPos_;}
 	
 	virtual int Draw() = 0;
+	int DrawAt(int x, int y) {SetPos(x, y); return Draw();}
 
 protected:
 	AnchorPos AnchorPos_ = AnchorPos::TOP_LEFT;

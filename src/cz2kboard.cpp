@@ -5,22 +5,96 @@
 #include <iostream>
 #include <random>
 
-CZ2kBoard::CZ2kBoard()
+CZ2kBoard::CZ2kBoard(CBlitter *blitter)
 {
-	memset(Data_, 0, sizeof(int) * CZ2K_BOARD_SIZE * CZ2K_BOARD_SIZE);
+	std::string f;
+	CSDLSprite *s;
+
+	//this sprite is used for the pop animation
+	f = "./data/2.bmp";
+	s = new CSDLSprite(-1, dynamic_cast<CSDLBlitter*>(blitter));
+	s->LoadImage(f);
+	s->SetAnchorPos(CDrawable::AnchorPos::CENTER);
+	Sprites_.insert(std::pair<int, CSDLSprite*>(-1, s));
+
+	f = "./data/0.bmp";
+	s = new CSDLSprite(0, dynamic_cast<CSDLBlitter*>(blitter));
+	s->LoadImage(f);
+	Sprites_.insert(std::pair<int, CSDLSprite*>(0, s));
+
+	f = "./data/2.bmp";
+	s = new CSDLSprite(2, dynamic_cast<CSDLBlitter*>(blitter));
+	s->LoadImage(f);
+	Sprites_.insert(std::pair<int, CSDLSprite*>(2, s));
+
+	f = "./data/4.bmp";
+	s = new CSDLSprite(4, dynamic_cast<CSDLBlitter*>(blitter));
+	s->LoadImage(f);
+	Sprites_.insert(std::pair<int, CSDLSprite*>(4, s));
+
+	f = "./data/8.bmp";
+	s = new CSDLSprite(8, dynamic_cast<CSDLBlitter*>(blitter));
+	s->LoadImage(f);
+	Sprites_.insert(std::pair<int, CSDLSprite*>(8, s));
+
+	f = "./data/16.bmp";
+	s = new CSDLSprite(16, dynamic_cast<CSDLBlitter*>(blitter));
+	s->LoadImage(f);
+	Sprites_.insert(std::pair<int, CSDLSprite*>(16, s));
 	
+	f = "./data/32.bmp";
+	s = new CSDLSprite(32, dynamic_cast<CSDLBlitter*>(blitter));
+	s->LoadImage(f);
+	Sprites_.insert(std::pair<int, CSDLSprite*>(32, s));
+	
+	f = "./data/64.bmp";
+	s = new CSDLSprite(64, dynamic_cast<CSDLBlitter*>(blitter));
+	s->LoadImage(f);
+	Sprites_.insert(std::pair<int, CSDLSprite*>(64, s));
+	
+	f = "./data/128.bmp";
+	s = new CSDLSprite(128, dynamic_cast<CSDLBlitter*>(blitter));
+	s->LoadImage(f);
+	Sprites_.insert(std::pair<int, CSDLSprite*>(128, s));
+	
+	f = "./data/256.bmp";
+	s = new CSDLSprite(256, dynamic_cast<CSDLBlitter*>(blitter));
+	s->LoadImage(f);
+	Sprites_.insert(std::pair<int, CSDLSprite*>(256, s));
+	
+	f = "./data/512.bmp";
+	s = new CSDLSprite(512, dynamic_cast<CSDLBlitter*>(blitter));
+	s->LoadImage(f);
+	Sprites_.insert(std::pair<int, CSDLSprite*>(512, s));
+	
+	f = "./data/1024.bmp";
+	s = new CSDLSprite(1024, dynamic_cast<CSDLBlitter*>(blitter));
+	s->LoadImage(f);
+	Sprites_.insert(std::pair<int, CSDLSprite*>(1024, s));
+	
+	f = "./data/2048.bmp";
+	s = new CSDLSprite(2048, dynamic_cast<CSDLBlitter*>(blitter));
+	s->LoadImage(f);
+	Sprites_.insert(std::pair<int, CSDLSprite*>(2048, s));
+
 	AddRandom();
 }
 
-void CZ2kBoard::Draw(std::map<int, CSDLSprite*> &Sprites_)
+CZ2kBoard::~CZ2kBoard()
 {
-	for(int i = 0; i < CZ2K_BOARD_SIZE * CZ2K_BOARD_SIZE; i++)
-	{
-		int row = i / CZ2K_BOARD_SIZE;
-		int col = i % CZ2K_BOARD_SIZE;
-		int val = Data_[i];
+	for(auto i: Sprites_)
+		delete i.second;
+}
 
-		DrawTile(col, row, val, Sprites_);
+void CZ2kBoard::Draw()
+{
+	for(int i = 0; i < GetSize()*GetSize(); i++)
+	{
+		int row = i / GetSize();
+		int col = i % GetSize();
+		int val = GetAt(i);
+
+		DrawTile(col, row, val);
 	}
 	
 	auto itn = NewTiles_.begin();
@@ -28,8 +102,8 @@ void CZ2kBoard::Draw(std::map<int, CSDLSprite*> &Sprites_)
 	{
 		auto &i = *itn;
 
-		int row = i.pos / CZ2K_BOARD_SIZE;
-		int col = i.pos % CZ2K_BOARD_SIZE;
+		int row = i.pos / GetSize();
+		int col = i.pos % GetSize();
 
 		std::cout << "new tile " << i.val << " at " << col << " " << row << std::endl;
 		
@@ -43,7 +117,7 @@ void CZ2kBoard::Draw(std::map<int, CSDLSprite*> &Sprites_)
 		Scaler_ = new CAnimatorScale(s, {0.7, 0.8, 0.9, 1, 1.15, 1.3, 1.15, 1});
 		Scaler_->StartAnimation();
 
-		Data_[i.pos] = i.val;
+		SetAt(i.pos, i.val);
 		itn = NewTiles_.erase(itn);
 	}
 	
@@ -51,15 +125,12 @@ void CZ2kBoard::Draw(std::map<int, CSDLSprite*> &Sprites_)
 		Scaler_->GetDrawable()->Draw();
 }
 
-void CZ2kBoard::DrawTile(int col, int row, int val, std::map<int, CSDLSprite*> &Sprites_)
+void CZ2kBoard::DrawTile(int col, int row, int val)
 {
 		auto it = Sprites_.find(val);
 		CSDLSprite *s = (*it).second;
 		if(s)
-		{
-			s->SetPos(col * 128, row * 128);
-			s->Draw();
-		}
+			s->DrawAt(col * 128, row * 128);
 		else
 			std::cout << "sprite for " << val << " not found" << std::endl;
 }
@@ -79,9 +150,9 @@ void CZ2kBoard::Tick(int usec __attribute__((__unused__)))
 int CZ2kBoard::CountEmpty()
 {
 	int count = 0;
-	for(int i : Data_)
+	for(int i = 0; i < GetSize()*GetSize(); ++i)
 	{
-		if(i == 0)
+		if(GetAt(i) == 0)
 			count++;
 	}
 	return count;
@@ -100,19 +171,19 @@ bool CZ2kBoard::AddRandom()
 	
 	int i = 0;
 	int z = 0;
-	while((z < rnd) && (i < CZ2K_BOARD_SIZE*CZ2K_BOARD_SIZE))
+	while((z < rnd) && (i < GetSize()*GetSize()))
 	{
-		if(Data_[i] == 0)
+		if(GetAt(i) == 0)
 			z++;
 		i++;
 	}
-	while(Data_[i] != 0)
+	while(GetAt(i) != 0)
 		i++;
 
-	assert(i < CZ2K_BOARD_SIZE*CZ2K_BOARD_SIZE);
-	assert(Data_[i] == 0);
+	assert(i < GetSize()*GetSize());
+	assert(GetAt(i) == 0);
 
-	//Data_[i] = 2;
+	//SetAt(i, 2);
 	tNewTile t;
 	t.pos = i;
 	NewTiles_.push_back(t);
@@ -124,9 +195,9 @@ bool CZ2kBoard::MoveRight()
 	bool needadd = false;
 	
 	//summ up
-	for(int row = 0; row < CZ2K_BOARD_SIZE; ++row)
+	for(int row = 0; row < GetSize(); ++row)
 	{
-		for(int col = CZ2K_BOARD_SIZE-1; col > 0; --col)
+		for(int col = GetSize()-1; col > 0; --col)
 		{
 			if(GetAt(col, row) > 0)
 			{
@@ -147,9 +218,9 @@ bool CZ2kBoard::MoveRight()
 	}
 	
 	//push
-	for(int row = 0; row < CZ2K_BOARD_SIZE; ++row)
+	for(int row = 0; row < GetSize(); ++row)
 	{
-		for(int col = CZ2K_BOARD_SIZE-1; col > 0; --col)
+		for(int col = GetSize()-1; col > 0; --col)
 		{
 			if(GetAt(col, row) == 0)
 			{
@@ -181,14 +252,14 @@ bool CZ2kBoard::MoveLeft()
 	bool needadd = false;
 	
 	//summ up
-	for(int row = 0; row < CZ2K_BOARD_SIZE; ++row)
+	for(int row = 0; row < GetSize(); ++row)
 	{
-		for(int col = 0; col < CZ2K_BOARD_SIZE-1; ++col)
+		for(int col = 0; col < GetSize()-1; ++col)
 		{
 			if(GetAt(col, row) > 0)
 			{
 				int i = col + 1;
-				while((i < CZ2K_BOARD_SIZE-1) && (GetAt(i, row) == 0))
+				while((i < GetSize()-1) && (GetAt(i, row) == 0))
 					++i;
 				
 				if(GetAt(col, row) == GetAt(i, row))
@@ -204,14 +275,14 @@ bool CZ2kBoard::MoveLeft()
 	}
 
 	//push
-	for(int row = 0; row < CZ2K_BOARD_SIZE; ++row)
+	for(int row = 0; row < GetSize(); ++row)
 	{
-		for(int col = 0; col < CZ2K_BOARD_SIZE-1; ++col)
+		for(int col = 0; col < GetSize()-1; ++col)
 		{
 			if(GetAt(col, row) == 0)
 			{
 				int i = col+1;
-				while((i < CZ2K_BOARD_SIZE-1) && (GetAt(i, row) == 0))
+				while((i < GetSize()-1) && (GetAt(i, row) == 0))
 					++i;
 				
 				if(GetAt(i, row) != 0)
@@ -238,14 +309,14 @@ bool CZ2kBoard::MoveUp()
 	bool needadd = false;
 	
 	//summ up
-	for(int col = 0; col < CZ2K_BOARD_SIZE; ++col)
+	for(int col = 0; col < GetSize(); ++col)
 	{
-		for(int row = 0; row < CZ2K_BOARD_SIZE-1; ++row)
+		for(int row = 0; row < GetSize()-1; ++row)
 		{
 			if(GetAt(col, row) > 0)
 			{
 				int i = row + 1;
-				while((i < CZ2K_BOARD_SIZE-1) && (GetAt(col, i) == 0))
+				while((i < GetSize()-1) && (GetAt(col, i) == 0))
 					++i;
 				
 				if(GetAt(col, row) == GetAt(col, i))
@@ -261,14 +332,14 @@ bool CZ2kBoard::MoveUp()
 	}
 
 	//push
-	for(int col = 0; col < CZ2K_BOARD_SIZE; ++col)
+	for(int col = 0; col < GetSize(); ++col)
 	{
-		for(int row = 0; row < CZ2K_BOARD_SIZE-1; ++row)
+		for(int row = 0; row < GetSize()-1; ++row)
 		{
 			if(GetAt(col, row) == 0)
 			{
 				int i = row+1;
-				while((i < CZ2K_BOARD_SIZE-1) && (GetAt(col, i) == 0))
+				while((i < GetSize()-1) && (GetAt(col, i) == 0))
 					++i;
 				
 				if(GetAt(col, i) != 0)
@@ -295,9 +366,9 @@ bool CZ2kBoard::MoveDown()
 	bool needadd = false;
 	
 	//summ up
-	for(int col = 0; col < CZ2K_BOARD_SIZE; ++col)
+	for(int col = 0; col < GetSize(); ++col)
 	{
-		for(int row = CZ2K_BOARD_SIZE-1; row > 0; --row)
+		for(int row = GetSize()-1; row > 0; --row)
 		{
 			if(GetAt(col, row) > 0)
 			{
@@ -318,9 +389,9 @@ bool CZ2kBoard::MoveDown()
 	}
 
 		//push
-	for(int col = 0; col < CZ2K_BOARD_SIZE; ++col)
+	for(int col = 0; col < GetSize(); ++col)
 	{
-		for(int row = CZ2K_BOARD_SIZE-1; row > 0; --row)
+		for(int row = GetSize()-1; row > 0; --row)
 		{
 			if(GetAt(col, row) == 0)
 			{

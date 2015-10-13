@@ -6,7 +6,6 @@
 union SDL_Event;
 
 class CBlitter;
-class CSDLSprite;
 class CSDLInputSink;
 
 class CZ2kBoard;
@@ -29,8 +28,6 @@ private:
 	bool isRunning_ = false;
 	CBlitter *Blitter_ = nullptr;
 	CZ2kBoard *Board_ = nullptr;
-	
-	std::map<int, CSDLSprite*> Sprites_;
 };
 
 #endif

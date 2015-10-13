@@ -9,88 +9,18 @@
 
 CZ2k::CZ2k()
 	:Blitter_(new CSDLBlitter)
-	,Board_(new CZ2kBoard)
+	,Board_(nullptr)
 {
 	if(!Init())
 		return;
-
-	std::string f;
-	CSDLSprite *s;
-
-	//this sprite is used for the pop animation
-	f = "./data/2.bmp";
-	s = new CSDLSprite(-1, dynamic_cast<CSDLBlitter*>(Blitter_));
-	s->LoadImage(f);
-	s->SetAnchorPos(CDrawable::AnchorPos::CENTER);
-	Sprites_.insert(std::pair<int, CSDLSprite*>(-1, s));
-
-	f = "./data/0.bmp";
-	s = new CSDLSprite(0, dynamic_cast<CSDLBlitter*>(Blitter_));
-	s->LoadImage(f);
-	Sprites_.insert(std::pair<int, CSDLSprite*>(0, s));
-
-	f = "./data/2.bmp";
-	s = new CSDLSprite(2, dynamic_cast<CSDLBlitter*>(Blitter_));
-	s->LoadImage(f);
-	Sprites_.insert(std::pair<int, CSDLSprite*>(2, s));
-
-	f = "./data/4.bmp";
-	s = new CSDLSprite(4, dynamic_cast<CSDLBlitter*>(Blitter_));
-	s->LoadImage(f);
-	Sprites_.insert(std::pair<int, CSDLSprite*>(4, s));
-
-	f = "./data/8.bmp";
-	s = new CSDLSprite(8, dynamic_cast<CSDLBlitter*>(Blitter_));
-	s->LoadImage(f);
-	Sprites_.insert(std::pair<int, CSDLSprite*>(8, s));
-
-	f = "./data/16.bmp";
-	s = new CSDLSprite(16, dynamic_cast<CSDLBlitter*>(Blitter_));
-	s->LoadImage(f);
-	Sprites_.insert(std::pair<int, CSDLSprite*>(16, s));
 	
-	f = "./data/32.bmp";
-	s = new CSDLSprite(32, dynamic_cast<CSDLBlitter*>(Blitter_));
-	s->LoadImage(f);
-	Sprites_.insert(std::pair<int, CSDLSprite*>(32, s));
-	
-	f = "./data/64.bmp";
-	s = new CSDLSprite(64, dynamic_cast<CSDLBlitter*>(Blitter_));
-	s->LoadImage(f);
-	Sprites_.insert(std::pair<int, CSDLSprite*>(64, s));
-	
-	f = "./data/128.bmp";
-	s = new CSDLSprite(128, dynamic_cast<CSDLBlitter*>(Blitter_));
-	s->LoadImage(f);
-	Sprites_.insert(std::pair<int, CSDLSprite*>(128, s));
-	
-	f = "./data/256.bmp";
-	s = new CSDLSprite(256, dynamic_cast<CSDLBlitter*>(Blitter_));
-	s->LoadImage(f);
-	Sprites_.insert(std::pair<int, CSDLSprite*>(256, s));
-	
-	f = "./data/512.bmp";
-	s = new CSDLSprite(512, dynamic_cast<CSDLBlitter*>(Blitter_));
-	s->LoadImage(f);
-	Sprites_.insert(std::pair<int, CSDLSprite*>(512, s));
-	
-	f = "./data/1024.bmp";
-	s = new CSDLSprite(1024, dynamic_cast<CSDLBlitter*>(Blitter_));
-	s->LoadImage(f);
-	Sprites_.insert(std::pair<int, CSDLSprite*>(1024, s));
-	
-	f = "./data/2048.bmp";
-	s = new CSDLSprite(2048, dynamic_cast<CSDLBlitter*>(Blitter_));
-	s->LoadImage(f);
-	Sprites_.insert(std::pair<int, CSDLSprite*>(2048, s));
+	Board_ = new CZ2kBoard(Blitter_); 
 }
 
 CZ2k::~CZ2k()
 {
 	delete Blitter_;
 	delete Board_;
-	for(auto i: Sprites_)
-		delete i.second;
 }
 
 void CZ2k::Run()
@@ -151,7 +81,7 @@ void CZ2k::OnEvent(SDL_Event *event)
 void CZ2k::Render()
 {
 	Blitter_->Clear();
-	Board_->Draw(Sprites_);
+	Board_->Draw();
 	Blitter_->Draw();
 }
 

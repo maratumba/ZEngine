@@ -1,4 +1,4 @@
-CXXFLAGS=-Wall -Werror -Wextra -Wno-ignored-qualifiers -O2 -ggdb -lstdc++ -std=gnu++11
+CXXFLAGS=-Wall -Werror -Wextra -Wno-ignored-qualifiers -ggdb -lstdc++ -std=gnu++14 -L/usr/lib64
 CXX=g++
 CC=gcc
 DEST=/usr/local/games
@@ -22,12 +22,13 @@ ZENGINE_OBJS = \
 	cpolygon.o \
 	ccollider.o \
 	canimator.o \
-	canimatorscale.o
+	canimatorscale.o \
+	canimatormove.o
 ZENGINE_MAIN = zenginemain.o
 ZENGINE_TARGET = ZEngine
 
  
-Z2K_OBJS = cz2k.o cz2kboard.o
+Z2K_OBJS = cz2k.o cz2kboard.o cz2ktile.o
 Z2K_MAIN = z2kmain.o
 Z2K_TARGET = Z2k
 
