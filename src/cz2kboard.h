@@ -3,6 +3,7 @@
 
 #include <map>
 #include <list>
+#include "cz2ktile.h"
 
 class CBlitter;
 class CSDLSprite;
@@ -36,17 +37,19 @@ private:
 		int val = 2;
 	};
 
-	inline int GetAt(int pos) {return Data_[pos];}
-	inline void SetAt(int pos, int val) {Data_[pos] = val;}
+	inline int GetAt(int pos) {return Data_[pos]->GetValue();}
+	void SetAt(int pos, int val);
 
-	void DrawTile(int col, int row, int val);
+	inline void DrawTileAt(int col, int row) {Data_[row * GetSize() + col]->DrawAt(col * 128, row * 128);}
+
+	//void DrawTile(int col, int row, int val);
 	/**
 	 * Adds one new number 2 tile to the board at a random place
 	 */
 	bool AddRandom();
 	int CountEmpty();
 
-	int Data_[CZ2K_BOARD_SIZE * CZ2K_BOARD_SIZE] = {0};
+	CZ2kTile *Data_[CZ2K_BOARD_SIZE * CZ2K_BOARD_SIZE] = {0};
 	std::list<tNewTile> NewTiles_;
 	CAnimatorScale *Scaler_ = nullptr;
 	std::map<int, CSDLSprite*> Sprites_;

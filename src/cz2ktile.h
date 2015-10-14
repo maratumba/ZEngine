@@ -1,5 +1,5 @@
-#ifndef __CZ2KBOARD_H__
-#define __CZ2KBOARD_H__
+#ifndef __CZ2KTILE_H__
+#define __CZ2KTILE_H__
 
 #include "cdrawable.h"
 
@@ -17,8 +17,8 @@ public:
 	void SetValue(int v, CDrawable *sprite) {Value_ = v; Sprite_ = sprite;}
 
 private:
-	int Value_;
-	CDrawable *Sprite_;
+	int Value_ = 0;
+	CDrawable *Sprite_ = nullptr;
 };
 
 #endif

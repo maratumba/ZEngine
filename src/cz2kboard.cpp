@@ -77,11 +77,21 @@ CZ2kBoard::CZ2kBoard(CBlitter *blitter)
 	s->LoadImage(f);
 	Sprites_.insert(std::pair<int, CSDLSprite*>(2048, s));
 
+	for(int i = 0; i < GetSize()*GetSize(); ++i)
+	{
+		Data_[i] = new CZ2kTile();
+		auto it = Sprites_.find(0);
+		CSDLSprite *s = (*it).second;
+		Data_[i]->SetValue(0, s);
+	}
+	
 	AddRandom();
 }
 
 CZ2kBoard::~CZ2kBoard()
 {
+	for(auto i: Data_)
+		delete i;
 	for(auto i: Sprites_)
 		delete i.second;
 }
@@ -92,9 +102,7 @@ void CZ2kBoard::Draw()
 	{
 		int row = i / GetSize();
 		int col = i % GetSize();
-		int val = GetAt(i);
-
-		DrawTile(col, row, val);
+		DrawTileAt(col, row);
 	}
 	
 	auto itn = NewTiles_.begin();
@@ -105,7 +113,7 @@ void CZ2kBoard::Draw()
 		int row = i.pos / GetSize();
 		int col = i.pos % GetSize();
 
-		std::cout << "new tile " << i.val << " at " << col << " " << row << std::endl;
+		//std::cout << "new tile " << i.val << " at " << col << " " << row << std::endl;
 		
 		auto it = Sprites_.find(-1); //-1 is the pop sprite
 		CSDLSprite *s = (*it).second;
@@ -125,14 +133,13 @@ void CZ2kBoard::Draw()
 		Scaler_->GetDrawable()->Draw();
 }
 
-void CZ2kBoard::DrawTile(int col, int row, int val)
+void CZ2kBoard::SetAt(int pos, int val)
 {
-		auto it = Sprites_.find(val);
-		CSDLSprite *s = (*it).second;
-		if(s)
-			s->DrawAt(col * 128, row * 128);
-		else
-			std::cout << "sprite for " << val << " not found" << std::endl;
+	auto it = Sprites_.find(val);
+	CSDLSprite *s = (*it).second;
+	if(!s)
+		std::cout << "no sprite found for value: " << val << std::endl;
+	Data_[pos]->SetValue(val, s);
 }
 
 void CZ2kBoard::Tick(int usec __attribute__((__unused__)))
