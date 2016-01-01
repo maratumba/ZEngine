@@ -6,9 +6,11 @@ MAKE=make
 
 SDLLIBS = $(shell sdl2-config --libs)
 SDLINCS = $(shell sdl2-config --cflags)
+SDLIMGLIBS = $(shell pkg-config SDL2_image --libs)
+SDLIMGINCS = $(shell pkg-config SDL2_image --cflags)
 RAPIDXMLINCS = -I./rapidxml
 
-INCS = $(SDLINCS) $(RAPIDXMLINCS)
+INCS = $(SDLINCS) $(SDLIMGINCS) $(RAPIDXMLINCS)
 
 ZENGINE_OBJS = \
 	cblitter.o \
@@ -39,11 +41,11 @@ zengine.a: $(ZENGINE_OBJS)
 	ar cr $(ZENGINE_TARGET) $(ZENGINE_OBJS)
 
 ZEngine: $(ZENGINE_TARGET) $(ZDEMO_OBJS) $(ZDEMO_MAIN)
-	$(CXX) $(ZDEMO_MAIN) $(ZDEMO_OBJS) $(ZENGINE_TARGET) -o $(ZDEMO_TARGET) $(CXXFLAGS) $(SDLLIBS)
+	$(CXX) $(ZDEMO_MAIN) $(ZDEMO_OBJS) $(ZENGINE_TARGET) -o $(ZDEMO_TARGET) $(CXXFLAGS) $(SDLLIBS) $(SDLIMGLIBS)
 	mv $(ZDEMO_TARGET) ..
 
 Z2k: $(ZENGINE_TARGET) $(Z2K_OBJS) $(Z2K_MAIN)
-	$(CXX) $(Z2K_MAIN) $(Z2K_OBJS) $(ZENGINE_TARGET) -o $(Z2K_TARGET) $(CXXFLAGS) $(SDLLIBS)
+	$(CXX) $(Z2K_MAIN) $(Z2K_OBJS) $(ZENGINE_TARGET) -o $(Z2K_TARGET) $(CXXFLAGS) $(SDLLIBS) $(SDLIMGLIBS)
 	mv $(Z2K_TARGET) ..
 
 %.o: %.cpp %.h

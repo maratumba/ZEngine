@@ -1,5 +1,5 @@
 <character>
-	<spriteanim file="data/cafer.bmp" framewidth="100" frameperiod="0.15">
+	<spriteanim file="data/cafer.png" framewidth="100" frameperiod="0.15">
 		<sprite>
 <!--
 			<polygon>

@@ -15,13 +15,12 @@ CZEngine::CZEngine()
 
 	std::string f;
 	std::string c;
-	f = "./data/CitadelIsland.bmp";
-	CSDLSprite *background = new CSDLSprite(1, dynamic_cast<CSDLBlitter*>(blitter));
+	f = "./data/room_01_BG.png";
+	CSDLSprite *background = new CSDLSprite(0, dynamic_cast<CSDLBlitter*>(blitter));
 	background->LoadImage(f);
-	background->SetPos(-3000, -2500);
+	background->SetPos(-100, -200);
 	Sprites_.push_back(background);
 
-	f = "./data/stickman.bmp";
 	CSpriteAnim *stickman = new CSpriteAnim(2, dynamic_cast<CSDLBlitter*>(blitter));
 	c = "./data/stickman.xml";
 	stickman->ReadConfig(c);
@@ -33,16 +32,22 @@ CZEngine::CZEngine()
 	Guybrush_ = new CCharacter(3, dynamic_cast<CSDLBlitter*>(blitter), Sprites_);
 	c = "./data/guybrush.xml";
 	Guybrush_->ReadConfig(c);
-	Guybrush_->SetPos(300, 400);
+	Guybrush_->SetPos(150, 400);
 	Sprites_.push_back(Guybrush_);
 	//InputSinks_.push_back(Guybrush_);
 
 	Cafer_ = new CCharacter(4, dynamic_cast<CSDLBlitter*>(blitter), Sprites_);
 	c = "./data/cafer.xml";
 	Cafer_->ReadConfig(c);
-	Cafer_->SetPos(450, 400);
+	Cafer_->SetPos(300, 400);
 	Sprites_.push_back(Cafer_);
 	InputSinks_.push_back(Cafer_);
+
+	f = "./data/room_01_FG.png";
+	CSDLSprite *foreground = new CSDLSprite(1, dynamic_cast<CSDLBlitter*>(blitter));
+	foreground->LoadImage(f);
+	foreground->SetPos(-100, -200);
+	Sprites_.push_back(foreground);
 }
 
 CZEngine::~CZEngine()
@@ -83,7 +88,7 @@ void CZEngine::Run()
 
 bool CZEngine::Init()
 {
-	if(blitter->Init(1024, 768, 24) != 0)
+	if(blitter->Init(1280, 720, 24) != 0)
 		return false;
 	return true;
 }

@@ -1,6 +1,7 @@
 #include "csdlsprite.h"
 #include "csdlblitter.h"
 #include <SDL.h>
+#include <SDL_image.h>
 #include <iostream>
 
 CSDLSprite::CSDLSprite(int id, CSDLBlitter *blitter)
@@ -62,10 +63,10 @@ int CSDLSprite::ReadConfig(const rapidxml::xml_node<> *node)
 int CSDLSprite::LoadImage(std::string &file)
 {
 	SDL_Surface *bmp = nullptr;
-	bmp = SDL_LoadBMP(file.c_str());
+	bmp = IMG_Load(file.c_str());
 	if(bmp == nullptr)
 	{
-		std::cout << file.c_str() << ": file not found" << std::endl;
+		std::cout << file.c_str() << ": unable to load image : " << IMG_GetError() << std::endl;
 		return 1;
 	}
 
