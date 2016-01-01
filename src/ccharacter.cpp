@@ -54,6 +54,36 @@ int CCharacter::ReadConfig(const rapidxml::xml_node<> *node)
 		return 1;
 
 	int rvl = CSpriteAnim::ReadConfig(anim);
+	
+	rapidxml::xml_node<> *aniframe = node->first_node("aniframe");
+	while(aniframe)
+	{
+		std::string name;
+		int frameFirst = 0;
+		int frameLast = 0;
+		rapidxml::xml_attribute<> *att;
+		att = aniframe->first_attribute("name");
+		if(!att)
+			break;
+		name = att->value();
+
+		att = aniframe->first_attribute("frameFirst");
+		if(!att)
+			break;
+		frameFirst = atoi(att->value());
+		
+		att = aniframe->first_attribute("frameLast");
+		if(!att)
+			break;
+		frameLast = atoi(att->value());
+	
+		//AniFrames_.insert(std::make_pair(name, std::make_pair(frameFirst, frameLast)));
+		AniFrames_[name] = std::make_pair(frameFirst, frameLast);
+		std::cout << "aniframe " << name << std::endl;
+		
+		aniframe = aniframe->next_sibling("aniframe");
+	}
+	
 	std::cout << "Reading CCharacter done" << std::endl;
 	return rvl;
 }
@@ -82,29 +112,43 @@ bool CCharacter::Collides()
 	return false;
 }
 
+void CCharacter::SetAnimState(std::string state)
+{
+	std::pair<int, int> f;
+	try
+	{
+		f = AniFrames_.at(state);
+	}
+	catch(const std::exception &e)
+	{
+		std::cout << "Exception caught!!!: " << e.what() << std::endl;
+	}
+	this->SetActiveFrames(f.first, f.second);
+}
+
 void CCharacter::SetAnimState(eAnimState state)
 {
 	switch(state)
 	{
 	case eAnimState::WalkRight:
 		if(this->State_ != eAnimState::WalkRight)
-			this->SetActiveFrames(1, 6);
+			this->SetAnimState("WalkRight");
 		this->State_ = eAnimState::WalkRight;
 		break;
 
 	case eAnimState::WalkLeft:
 		if(this->State_ != eAnimState::WalkLeft)
-			this->SetActiveFrames(8, 13);
+			this->SetAnimState("WalkLeft");
 		this->State_ = eAnimState::WalkLeft;
 		break;
 
 	case eAnimState::StandRight:
-		this->SetActiveFrames(0, 0);
+		this->SetAnimState("StandRight");
 		this->State_ = eAnimState::StandRight;
 		break;
 
 	case eAnimState::StandLeft:
-		this->SetActiveFrames(7, 7);
+		this->SetAnimState("StandLeft");
 		this->State_ = eAnimState::StandLeft;
 		break;
 	

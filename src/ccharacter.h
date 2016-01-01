@@ -6,6 +6,8 @@
 
 #include "rapidxml.hpp"
 
+#include <unordered_map>
+
 enum class eAnimState;
 
 class CCharacter: public CSpriteAnim, public CSDLInputSink
@@ -23,8 +25,10 @@ public:
 private:
 	eAnimState State_;
 	std::vector<CSDLSprite*> &Colliders_;
+	std::unordered_map<std::string, std::pair<int, int>> AniFrames_;
 
 	int ReadConfig(const rapidxml::xml_node<> *node);
+	void SetAnimState(std::string state);
 	void SetAnimState(eAnimState state);
 };
 

@@ -11,7 +11,6 @@ RAPIDXMLINCS = -I./rapidxml
 INCS = $(SDLINCS) $(RAPIDXMLINCS)
 
 ZENGINE_OBJS = \
-	czengine.o \
 	cblitter.o \
 	csdlblitter.o \
 	cdrawable.o \
@@ -24,22 +23,27 @@ ZENGINE_OBJS = \
 	canimator.o \
 	canimatorscale.o \
 	canimatormove.o
-ZENGINE_MAIN = zenginemain.o
-ZENGINE_TARGET = ZEngine
+ZENGINE_TARGET = zengine.a
 
- 
+ZDEMO_OBJS = czengine.o
+ZDEMO_MAIN = zenginemain.o
+ZDEMO_TARGET = ZEngine
+
 Z2K_OBJS = cz2k.o cz2kboard.o cz2ktile.o
 Z2K_MAIN = z2kmain.o
 Z2K_TARGET = Z2k
 
-all: $(ZENGINE_TARGET) $(Z2K_TARGET)
+all: $(ZDEMO_TARGET) $(Z2K_TARGET)
 
-ZEngine: $(ZENGINE_OBJS) $(ZENGINE_MAIN)
-	$(CXX) $(ZENGINE_MAIN) $(ZENGINE_OBJS) -o $(ZENGINE_TARGET) $(CXXFLAGS) $(SDLLIBS)
-	mv $(ZENGINE_TARGET) ..
+zengine.a: $(ZENGINE_OBJS)
+	ar cr $(ZENGINE_TARGET) $(ZENGINE_OBJS)
 
-Z2k: $(Z2K_OBJS) $(ZENGINE_OBJS) $(Z2K_MAIN)
-	$(CXX) $(Z2K_MAIN) $(ZENGINE_OBJS) $(Z2K_OBJS) -o $(Z2K_TARGET) $(CXXFLAGS) $(SDLLIBS)
+ZEngine: $(ZENGINE_TARGET) $(ZDEMO_OBJS) $(ZDEMO_MAIN)
+	$(CXX) $(ZDEMO_MAIN) $(ZDEMO_OBJS) $(ZENGINE_TARGET) -o $(ZDEMO_TARGET) $(CXXFLAGS) $(SDLLIBS)
+	mv $(ZDEMO_TARGET) ..
+
+Z2k: $(ZENGINE_TARGET) $(Z2K_OBJS) $(Z2K_MAIN)
+	$(CXX) $(Z2K_MAIN) $(Z2K_OBJS) $(ZENGINE_TARGET) -o $(Z2K_TARGET) $(CXXFLAGS) $(SDLLIBS)
 	mv $(Z2K_TARGET) ..
 
 %.o: %.cpp %.h
@@ -49,4 +53,4 @@ Z2k: $(Z2K_OBJS) $(ZENGINE_OBJS) $(Z2K_MAIN)
 	$(CC) $(CCFLAGS) $(INCS) -DLINUX -c $<
 
 clean:
-	rm *.o ../$(ZENGINE_TARGET) ../$(Z2K_TARGET)
+	rm *.o *.a ../$(ZDEMO_TARGET) ../$(Z2K_TARGET)

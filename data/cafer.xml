@@ -1,5 +1,5 @@
 <character>
-	<spriteanim file="data/guybrush.bmp" framewidth="100" frameperiod="0.15">
+	<spriteanim file="data/cafer.bmp" framewidth="100" frameperiod="0.15">
 		<sprite>
 <!--
 			<polygon>
@@ -19,8 +19,8 @@
 	</spriteanim>
 
 	<aniframe name="StandRight" frameFirst="0" frameLast="0" />
-	<aniframe name="StandLeft" frameFirst="7" frameLast="7" />
-	<aniframe name="WalkRight" frameFirst="1" frameLast="6" />
-	<aniframe name="WalkLeft" frameFirst="8" frameLast="13" />
+	<aniframe name="StandLeft" frameFirst="5" frameLast="5" />
+	<aniframe name="WalkRight" frameFirst="1" frameLast="4" />
+	<aniframe name="WalkLeft" frameFirst="6" frameLast="9" />
 
 </character>

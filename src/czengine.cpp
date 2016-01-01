@@ -25,7 +25,6 @@ CZEngine::CZEngine()
 	CSpriteAnim *stickman = new CSpriteAnim(2, dynamic_cast<CSDLBlitter*>(blitter));
 	c = "./data/stickman.xml";
 	stickman->ReadConfig(c);
-	//stickman->Init(f, 40, 1);
 	stickman->SetPos(100, 400);
 	stickman->SetActiveFrames(0,1);
 	stickman->StartAnimation();
@@ -34,10 +33,16 @@ CZEngine::CZEngine()
 	Guybrush_ = new CCharacter(3, dynamic_cast<CSDLBlitter*>(blitter), Sprites_);
 	c = "./data/guybrush.xml";
 	Guybrush_->ReadConfig(c);
-	//Guybrush_->Init(f, 100, 0.15);
 	Guybrush_->SetPos(300, 400);
 	Sprites_.push_back(Guybrush_);
-	InputSinks_.push_back(Guybrush_);
+	//InputSinks_.push_back(Guybrush_);
+
+	Cafer_ = new CCharacter(4, dynamic_cast<CSDLBlitter*>(blitter), Sprites_);
+	c = "./data/cafer.xml";
+	Cafer_->ReadConfig(c);
+	Cafer_->SetPos(450, 400);
+	Sprites_.push_back(Cafer_);
+	InputSinks_.push_back(Cafer_);
 }
 
 CZEngine::~CZEngine()
@@ -141,8 +146,8 @@ void CZEngine::Loop()
 		int maxX = blitter->GetWidth() / 2 + dX;
 		int maxY = blitter->GetHeight() / 2 + dY;
 		
-		int guyX = Guybrush_->GetAbsolutePosX() + (Guybrush_->GetSizeX() / 2);
-		int guyY = Guybrush_->GetAbsolutePosY() + (Guybrush_->GetSizeY() / 2);
+		int guyX = Cafer_->GetAbsolutePosX() + (Cafer_->GetSizeX() / 2);
+		int guyY = Cafer_->GetAbsolutePosY() + (Cafer_->GetSizeY() / 2);
 		
 		if(guyX < minX)
 			blitter->MoveOffset(3, 0);

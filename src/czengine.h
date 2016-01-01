@@ -28,6 +28,7 @@ private:
 	bool isRunning_ = false;
 	CBlitter *blitter = nullptr;
 	CCharacter *Guybrush_ = nullptr;
+	CCharacter *Cafer_ = nullptr;
 	
 	std::vector<CSDLSprite*> Sprites_;
 	std::vector<CSDLInputSink*> InputSinks_;
