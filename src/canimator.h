@@ -6,7 +6,7 @@
 class CAnimator
 {
 public:
-	CAnimator(CDrawable *obj) {obj_ = obj;}
+	CAnimator(CDrawable *obj) {Obj_ = obj;}
 	virtual~CAnimator() {;}
 
 	virtual void Tick(int usec) = 0;
@@ -15,10 +15,10 @@ public:
 	void StopAnimation() {Running_ = false;}
 	bool isRunning() {return Running_;}
 	
-	CDrawable *GetDrawable() {return obj_;}
+	CDrawable *GetDrawable() {return Obj_;}
 
 protected:
-	CDrawable *obj_ = nullptr;
+	CDrawable *Obj_ = nullptr;
 	bool Running_ = false;
 };
 

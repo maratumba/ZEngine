@@ -115,6 +115,8 @@ int CSDLSprite::DrawFrame(int frameno)
 	SDL_Rect srcrect {srcX, srcY, srcW, srcH};
 	SDL_Rect dstrect {dstX, dstY, dstW, dstH};
 
+	//std::cout << "CSDLSprite::DrawFrame " << dstX << " " << dstY << std::endl;
+	
 	int rvl = SDL_RenderCopy(Blitter_->GetRenderer(), Texture_, &srcrect, &dstrect);
 	if(rvl)
 		std::cout << "SDL Failed to draw the sprite: " << SDL_GetError() << std::endl;

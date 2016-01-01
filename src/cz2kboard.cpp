@@ -83,6 +83,10 @@ CZ2kBoard::CZ2kBoard(CBlitter *blitter)
 		auto it = Sprites_.find(0);
 		CSDLSprite *s = (*it).second;
 		Data_[i]->SetValue(0, s);
+
+		int row = i / GetSize();
+		int col = i % GetSize();
+		Data_[i]->SetPos(col * 128, row * 128);
 	}
 	
 	AddRandom();
@@ -98,13 +102,17 @@ CZ2kBoard::~CZ2kBoard()
 
 void CZ2kBoard::Draw()
 {
+/*
 	for(int i = 0; i < GetSize()*GetSize(); i++)
 	{
 		int row = i / GetSize();
 		int col = i % GetSize();
 		DrawTileAt(col, row);
 	}
-	
+*/
+	for(auto &tile: Data_)
+		tile->Draw();
+
 	auto itn = NewTiles_.begin();
 	while(itn != NewTiles_.end())
 	{
@@ -142,7 +150,7 @@ void CZ2kBoard::SetAt(int pos, int val)
 	Data_[pos]->SetValue(val, s);
 }
 
-void CZ2kBoard::Tick(int usec __attribute__((__unused__)))
+void CZ2kBoard::Tick(int usec)
 {
 	if(Scaler_ && !Scaler_->isRunning())
 	{
@@ -150,6 +158,9 @@ void CZ2kBoard::Tick(int usec __attribute__((__unused__)))
 		Scaler_ = nullptr;
 	}
 
+	for(auto &tile: Data_)
+		tile->Tick(usec);
+	
 	if(Scaler_)
 		Scaler_->Tick(usec);
 }
@@ -237,10 +248,12 @@ bool CZ2kBoard::MoveRight()
 				
 				if(GetAt(i, row) != 0)
 				{
+					MoveTileTo(i, row, col, row);
+
 					int val = GetAt(i, row);
 					SetAt(col, row, val);
 					SetAt(i, row, 0);
-					
+
 					needadd = true;
 				}
 			}

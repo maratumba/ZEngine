@@ -40,7 +40,12 @@ private:
 	inline int GetAt(int pos) {return Data_[pos]->GetValue();}
 	void SetAt(int pos, int val);
 
-	inline void DrawTileAt(int col, int row) {Data_[row * GetSize() + col]->DrawAt(col * 128, row * 128);}
+	//inline void DrawTileAt(int col, int row) {Data_[row * GetSize() + col]->DrawAt(col * 128, row * 128);}
+	inline void MoveTileTo(int col, int row, int destCol, int destRow)
+	{
+		Data_[row * GetSize() + col]->SetPos(col * 128, row * 128);
+		Data_[row * GetSize() + col]->MoveTo(destCol * 128, destRow * 128);
+	}
 
 	//void DrawTile(int col, int row, int val);
 	/**
