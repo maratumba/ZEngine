@@ -90,24 +90,27 @@ int CCharacter::ReadConfig(const rapidxml::xml_node<> *node)
 
 bool CCharacter::Collides()
 {
-	for(auto &coll : Colliders_)
+	ActiveColliders_.clear();
+	
+	for(const auto &coll : Colliders_)
 	{
 		if(GetId() == coll->GetId())
 			continue;
 
-		tPoint thisPos;
-		thisPos.first = this->GetPosX();
-		thisPos.second = this->GetPosY();
-		tPoint otherPos;
-		otherPos.first = coll->GetPosX();
-		otherPos.second = coll->GetPosY();
+		tPoint thisPos(this->GetPosX(), this->GetPosY());
+		tPoint otherPos(coll->GetPosX(), coll->GetPosY());
 		
 		bool rvl = CollidesWith(thisPos, *coll, otherPos);
 		if(rvl)
-		{
-			//std::cout << "This " << GetId() << " collides with " << coll->GetId() << std::endl;
-			return true;
-		}
+			ActiveColliders_.push_back(coll);
+	}
+	if(ActiveColliders_.size())
+	{
+		//std::cout << "This " << GetId() << " collides with ";
+		//for(const auto &c: ActiveColliders_)
+		//	std::cout << c->GetId() << " ";
+		//std::cout << std::endl;
+		return true;
 	}
 	return false;
 }
@@ -159,9 +162,6 @@ void CCharacter::SetAnimState(eAnimState state)
 
 void CCharacter::UpdateKeybState(const unsigned char *keys)
 {
-		if(this->Collides())
-		{;}//std::cout << "Collides" << std::endl;
-
 	if(keys[SDL_SCANCODE_RIGHT] && keys[SDL_SCANCODE_UP])
 	{
 		this->MoveRight(1);

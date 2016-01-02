@@ -13,7 +13,6 @@ public:
 	~CPolygon() {;}
 
 	void AddPoint(tPoint &p);
-	bool CollidesWith(CPolygon &poly);
 
 	std::vector<tPoint> Points_;
 };

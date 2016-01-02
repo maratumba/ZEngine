@@ -14,8 +14,8 @@ public:
 	virtual ~CDrawable() {;}
 
 	void SetPos(int x, int y) {PosX_ = x; PosY_ = y;}
-	int GetPosX() {return PosX_;}
-	int GetPosY() {return PosY_;}
+	int GetPosX() const {return PosX_;}
+	int GetPosY() const {return PosY_;}
 
 	int MoveRight(int dx) {PosX_ += dx; return PosX_;}
 	int MoveLeft(int dx)  {PosX_ -= dx; return PosX_;}
@@ -23,11 +23,11 @@ public:
 	int MoveDown(int dy)  {PosY_ += dy; return PosY_;}
 
 	void SetScale(double sx, double sy) {ScaleX_ = sx; ScaleY_ = sy;}
-	double GetScaleX() {return ScaleX_;}
-	double GetScaleY() {return ScaleY_;}
+	double GetScaleX() const {return ScaleX_;}
+	double GetScaleY() const {return ScaleY_;}
 
-	int GetSizeX() {return SizeX_;}
-	int GetSizeY() {return SizeY_;}
+	int GetSizeX() const {return SizeX_;}
+	int GetSizeY() const {return SizeY_;}
 
 	void SetAnchorPos(AnchorPos apos) {AnchorPos_ = apos;}
 	AnchorPos GetAnchorPos() {return AnchorPos_;}

@@ -54,6 +54,7 @@ int CSDLBlitter::Init(int width, int height, int bpp)
 
 int CSDLBlitter::Clear()
 {
+	SDL_SetRenderDrawColor(Renderer_, 0, 0, 0, SDL_ALPHA_OPAQUE);
 	int rvl = SDL_RenderClear(Renderer_);
 	if(rvl)
 		std::cout << SDL_GetError() << std::endl;

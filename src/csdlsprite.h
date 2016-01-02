@@ -20,11 +20,11 @@ public:
 
 	int LoadImage(std::string &file);
 	int Draw() override;
-	int DrawFrame(int frameno);
-	void DrawCollisionPolygons(CBlitter *blitter);
+	int DrawFrame(int frameno) const;
+	void DrawCollisionPolygons(CBlitter *blitter, int r = 0, int g = 0, int b = 0) const;
 	
-	int GetAbsolutePosX() {return GetPosX() + Blitter_->GetOffsetX();}
-	int GetAbsolutePosY() {return GetPosY() + Blitter_->GetOffsetY();}
+	int GetAbsolutePosX() const {return GetPosX() + Blitter_->GetOffsetX();}
+	int GetAbsolutePosY() const {return GetPosY() + Blitter_->GetOffsetY();}
 
 protected:
 	int ReadConfig(const rapidxml::xml_node<> *node);

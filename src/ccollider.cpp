@@ -9,7 +9,7 @@ void CCollider::AddCollisionPolygon(CPolygon &poly)
 	CollisionPolygons_.push_back(poly);
 }
 
-bool CCollider::CollidesWith(tPoint thisPos, CCollider &otherCollider, tPoint otherPos)
+bool CCollider::CollidesWith(tPoint thisPos, const CCollider &otherCollider, tPoint otherPos) const
 {
 	for(auto poly1 : CollisionPolygons_)
 	{
@@ -17,14 +17,14 @@ bool CCollider::CollidesWith(tPoint thisPos, CCollider &otherCollider, tPoint ot
 		{
 			bool rvl = PolygonCollision(thisPos, poly1, otherPos, poly2);
 			if(rvl)
-			{/*
-				std::cout << "collision: " << std::endl;
-				std::cout << "\tpoly this: " << thisPos.first << ", " << thisPos.second << std::endl;
-				DumpPolygon(poly1);
-				std::cout << "\tpoly other: " << otherPos.first << ", " << otherPos.second << std::endl;
-				DumpPolygon(poly2);
-				*/
-				return rvl;
+			{
+				//std::cout << "collision: " << std::endl;
+				//std::cout << "\tpoly this: " << thisPos.first << ", " << thisPos.second << std::endl;
+				//DumpPolygon(poly1);
+				//std::cout << "\tpoly other: " << otherPos.first << ", " << otherPos.second << std::endl;
+				//DumpPolygon(poly2);
+				
+				return true;
 			}
 		}
 	}
@@ -47,11 +47,74 @@ void CCollider::DumpPolygon(const CPolygon &poly)
 		}
 }
 
+bool CCollider::PolygonCollision(tPoint posA, CPolygon polygonA, tPoint posB, CPolygon polygonB) const
+{
+	for(size_t ia = 0; ia < polygonA.Points_.size(); ++ia)
+	{
+		for(size_t ib = 0; ib < polygonB.Points_.size(); ++ib)
+		{
+			size_t ia2 = ia + 1;
+			if(ia2 >= polygonA.Points_.size())
+				ia2 = 0;
+
+			size_t ib2 = ib + 1;
+			if(ib2 >= polygonB.Points_.size())
+				ib2 = 0;
+
+			tPoint &pa1 = polygonA.Points_[ia];
+			tPoint &pa2 = polygonA.Points_[ia2];
+
+			tPoint &pb1 = polygonB.Points_[ib];
+			tPoint &pb2 = polygonB.Points_[ib2];
+			
+			float ix = 0;
+			float iy = 0;
+			bool coll = GetLineIntersection(posA.first + pa1.first, posA.second + pa1.second,
+																			posA.first + pa2.first, posA.second + pa2.second,
+																			posB.first + pb1.first, posB.second + pb1.second,
+																			posB.first + pb2.first, posB.second + pb2.second,
+																			&ix, &iy);
+			if(coll)
+				return true;
+		}
+	}
+
+	return false;
+}
+
+bool CCollider::GetLineIntersection(float p0_x, float p0_y, float p1_x, float p1_y, float p2_x, float p2_y, float p3_x, float p3_y, float *i_x, float *i_y) const
+{
+	float s1_x;
+	float s1_y;
+	float s2_x;
+	float s2_y;
+
+	s1_x = p1_x - p0_x;     s1_y = p1_y - p0_y;
+	s2_x = p3_x - p2_x;     s2_y = p3_y - p2_y;
+
+	float s, t;
+	s = (-s1_y * (p0_x - p2_x) + s1_x * (p0_y - p2_y)) / (-s2_x * s1_y + s1_x * s2_y);
+	t = ( s2_x * (p0_y - p2_y) - s2_y * (p0_x - p2_x)) / (-s2_x * s1_y + s1_x * s2_y);
+
+	if (s >= 0 && s <= 1 && t >= 0 && t <= 1)
+	{
+		// Collision detected
+		if (i_x != NULL)
+			*i_x = p0_x + (t * s1_x);
+		if (i_y != NULL)
+			*i_y = p0_y + (t * s1_y);
+		return true;
+	}
+
+	return false; // No collision
+}
+/*
 int CCollider::DotProduct(tPoint p1, tPoint p2)
 {
 	return p1.first*p2.first + p1.second*p2.second;
 }
-
+*/
+/*
 void CCollider::ProjectPolygon(tPoint axis, tPoint pos, const CPolygon &polygon, float &min, float &max)
 {
 	// To project a point on an axis use the dot product
@@ -78,7 +141,8 @@ void CCollider::ProjectPolygon(tPoint axis, tPoint pos, const CPolygon &polygon,
 		}
 	}
 }
-
+*/
+/*
 float CCollider::IntervalDistance(float minA, float maxA, float minB, float maxB)
 {
 	if (minA < minB)
@@ -90,7 +154,8 @@ float CCollider::IntervalDistance(float minA, float maxA, float minB, float maxB
 		return minA - maxB;
 	}
 }
-
+*/
+/*
 void CCollider::Normalize(tPoint &p)
 {
 	//Normalize the axis
@@ -98,7 +163,8 @@ void CCollider::Normalize(tPoint &p)
 	p.first /= len_v;
 	p.second /= len_v;
 }
-
+*/
+/*
 bool CCollider::PolygonCollision(tPoint posA, CPolygon polygonA, tPoint posB, CPolygon polygonB)
 {
 	bool result = true;
@@ -146,3 +212,4 @@ bool CCollider::PolygonCollision(tPoint posA, CPolygon polygonA, tPoint posB, CP
 
 	return result;
 }
+*/

@@ -86,7 +86,7 @@ int CSDLSprite::Draw()
 	return 0;
 }
 
-int CSDLSprite::DrawFrame(int frameno)
+int CSDLSprite::DrawFrame(int frameno) const
 {
 	int srcX = GetSizeX() * frameno;
 	int srcY = 0;
@@ -125,13 +125,14 @@ int CSDLSprite::DrawFrame(int frameno)
 	return 0;
 }
 
-void CSDLSprite::DrawCollisionPolygons(CBlitter *blitter)
+void CSDLSprite::DrawCollisionPolygons(CBlitter *blitter, int r, int g, int b) const
 {
 	for(auto &poly : CollisionPolygons_)
 	{
-		tPoint *prevPoint = &poly.Points_[poly.Points_.size() - 1];
-		for(auto &point : poly.Points_)
+		const tPoint *prevPoint = &poly.Points_[poly.Points_.size() - 1];
+		for(const auto &point : poly.Points_)
 		{
+			blitter->SetDrawColor(r,g,b,255);
 			blitter->DrawLine(
 					GetPosX() + Blitter_->GetOffsetX() + prevPoint->first, 
 					GetPosY() + Blitter_->GetOffsetY() + prevPoint->second, 

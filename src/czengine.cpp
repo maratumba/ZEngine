@@ -132,16 +132,23 @@ void CZEngine::Render()
 	{
 		i->Draw();
 	}
-	for(auto &i : Sprites_)
+	for(const auto &i : Sprites_)
 	{
 		i->DrawCollisionPolygons(blitter);
 	}
 
+	if(Cafer_->GetActiveColliders().size())
+	{
+		Cafer_->DrawCollisionPolygons(blitter, 255, 0, 0);
+	}
+	
 	blitter->Draw();
 }
 
 void CZEngine::Loop()
 {
+		Cafer_->Collides();
+
 		int dX = 20 * 5;
 		int dY = 20 * 3;
 		
