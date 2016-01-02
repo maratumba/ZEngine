@@ -90,6 +90,11 @@ int CCharacter::ReadConfig(const rapidxml::xml_node<> *node)
 
 bool CCharacter::Collides()
 {
+	return Collides({this->GetPosX(), this->GetPosY()});
+}
+
+bool CCharacter::Collides(tPoint thisPos)
+{
 	ActiveColliders_.clear();
 	
 	for(const auto &coll : Colliders_)
@@ -97,7 +102,6 @@ bool CCharacter::Collides()
 		if(GetId() == coll->GetId())
 			continue;
 
-		tPoint thisPos(this->GetPosX(), this->GetPosY());
 		tPoint otherPos(coll->GetPosX(), coll->GetPosY());
 		
 		bool rvl = CollidesWith(thisPos, *coll, otherPos);
@@ -164,54 +168,116 @@ void CCharacter::UpdateKeybState(const unsigned char *keys)
 {
 	if(keys[SDL_SCANCODE_RIGHT] && keys[SDL_SCANCODE_UP])
 	{
-		this->MoveRight(1);
-		this->MoveUp(1);
+		int x = GetPosX();
+		int y = GetPosY();
+		
+		if(!Collides({x+1, y-1}))
+		{
+			x += 1;
+			y -= 1;
+		}
+
+		SetPos(x, y);
 		this->SetAnimState(eAnimState::WalkRight);
 		this->StartAnimation();
 	}
-	if(keys[SDL_SCANCODE_RIGHT] && keys[SDL_SCANCODE_DOWN])
+	else if(keys[SDL_SCANCODE_RIGHT] && keys[SDL_SCANCODE_DOWN])
 	{
-		this->MoveRight(1);
-		this->MoveDown(1);
+		int x = GetPosX();
+		int y = GetPosY();
+		
+		if(!Collides({x+1, y+1}))
+		{
+			x += 1;
+			y += 1;
+		}
+
+		SetPos(x, y);
 		this->SetAnimState(eAnimState::WalkRight);
 		this->StartAnimation();
 	}
-	if(keys[SDL_SCANCODE_LEFT] && keys[SDL_SCANCODE_UP])
+	else if(keys[SDL_SCANCODE_LEFT] && keys[SDL_SCANCODE_UP])
 	{
-		this->MoveLeft(1);
-		this->MoveUp(1);
+		int x = GetPosX();
+		int y = GetPosY();
+		
+		if(!Collides({x-1, y-1}))
+		{
+			x -= 1;
+			y -= 1;
+		}
+
+		SetPos(x, y);
 		this->SetAnimState(eAnimState::WalkLeft);
 		this->StartAnimation();
 	}
-	if(keys[SDL_SCANCODE_LEFT] && keys[SDL_SCANCODE_DOWN])
+	else if(keys[SDL_SCANCODE_LEFT] && keys[SDL_SCANCODE_DOWN])
 	{
-		this->MoveLeft(1);
-		this->MoveDown(1);
+		int x = GetPosX();
+		int y = GetPosY();
+		
+		if(!Collides({x-1, y+1}))
+		{
+			x -= 1;
+			y += 1;
+		}
+
+		SetPos(x, y);
 		this->SetAnimState(eAnimState::WalkLeft);
 		this->StartAnimation();
 	}
-	if(keys[SDL_SCANCODE_RIGHT])
+	else if(keys[SDL_SCANCODE_RIGHT])
 	{
-		this->MoveRight(2);
-		this->SetAnimState(eAnimState::WalkRight);
-		this->StartAnimation();
+		int x = GetPosX();
+		int y = GetPosY();
+		
+		if(!Collides({x+2, y}))
+			x += 2;
+
+		SetPos(x, y);
+		SetAnimState(eAnimState::WalkRight);
+		StartAnimation();
 	}
 	else if(keys[SDL_SCANCODE_LEFT])
 	{
-		this->MoveLeft(2);
-		this->SetAnimState(eAnimState::WalkLeft);
-		this->StartAnimation();
+		int x = GetPosX();
+		int y = GetPosY();
+		
+		if(!Collides({x-2, y}))
+			x -= 2;
+
+		SetPos(x, y);
+		SetAnimState(eAnimState::WalkLeft);
+		StartAnimation();
 	}
 	else if(keys[SDL_SCANCODE_UP])
 	{
-		this->MoveUp(2);
-		this->SetAnimState(eAnimState::WalkLeft);
+		int x = GetPosX();
+		int y = GetPosY();
+		
+		if(!Collides({x, y-2}))
+			y -= 2;
+
+		SetPos(x, y);
+		if(State_ == eAnimState::StandRight)
+			this->SetAnimState(eAnimState::WalkRight);
+		if(State_ == eAnimState::StandLeft)
+			this->SetAnimState(eAnimState::WalkLeft);
 		this->StartAnimation();
 	}
 	else if(keys[SDL_SCANCODE_DOWN])
 	{
-		this->MoveDown(2);
-		this->SetAnimState(eAnimState::WalkLeft);
+		int x = GetPosX();
+		int y = GetPosY();
+		
+		if(!Collides({x, y+2}))
+			y += 2;
+
+		SetPos(x, y);
+		if(State_ == eAnimState::StandRight)
+			this->SetAnimState(eAnimState::WalkRight);
+		if(State_ == eAnimState::StandLeft)
+			this->SetAnimState(eAnimState::WalkLeft);
 		this->StartAnimation();
 	}
 	else
@@ -220,7 +286,6 @@ void CCharacter::UpdateKeybState(const unsigned char *keys)
 			this->SetAnimState(eAnimState::StandRight);
 		if(State_ == eAnimState::WalkLeft)
 			this->SetAnimState(eAnimState::StandLeft);
-		//this->StopAnimation();
 	}
 }
 

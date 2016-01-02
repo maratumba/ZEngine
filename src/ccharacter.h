@@ -21,6 +21,7 @@ public:
 	int ReadConfig(std::string &file);
 	int Init(std::string &file, int framewidth, double frameperiod);
 	bool Collides();
+	bool Collides(tPoint pos);
 
 	auto GetActiveColliders() const {return ActiveColliders_;}
 	
