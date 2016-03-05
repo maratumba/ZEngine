@@ -22,6 +22,7 @@ ZENGINE_OBJS = \
 	ccharacter.o \
 	cpolygon.o \
 	ccollider.o \
+	croom.o \
 	canimator.o \
 	canimatorscale.o \
 	canimatormove.o

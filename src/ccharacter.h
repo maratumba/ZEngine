@@ -18,7 +18,7 @@ public:
 
 	void UpdateKeybState(const unsigned char *keys) override;
 
-	int ReadConfig(std::string &file);
+	int ReadConfig(const std::string &file);
 	int Init(std::string &file, int framewidth, double frameperiod);
 	bool Collides();
 	bool Collides(tPoint pos);

@@ -21,7 +21,7 @@ public:
 	void StartAnimation() {Running_ = true;}
 	void StopAnimation() {Running_ = false;}
 
-	int ReadConfig(std::string &file);
+	int ReadConfig(const std::string &file);
 
 protected:
 	int ReadConfig(const rapidxml::xml_node<> *node);

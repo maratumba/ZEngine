@@ -60,7 +60,7 @@ int CSDLSprite::ReadConfig(const rapidxml::xml_node<> *node)
 	return 0;
 }
 
-int CSDLSprite::LoadImage(std::string &file)
+int CSDLSprite::LoadImage(const std::string &file)
 {
 	SDL_Surface *bmp = nullptr;
 	bmp = IMG_Load(file.c_str());

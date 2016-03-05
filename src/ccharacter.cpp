@@ -30,7 +30,7 @@ int CCharacter::Init(std::string &file, int framewidth, double frameperiod)
 	return CSpriteAnim::Init(file, framewidth, frameperiod);
 }
 
-int CCharacter::ReadConfig(std::string &file)
+int CCharacter::ReadConfig(const std::string &file)
 {
 	using namespace rapidxml;
 

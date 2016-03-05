@@ -11,9 +11,9 @@ void CCollider::AddCollisionPolygon(CPolygon &poly)
 
 bool CCollider::CollidesWith(tPoint thisPos, const CCollider &otherCollider, tPoint otherPos) const
 {
-	for(auto poly1 : CollisionPolygons_)
+	for(const auto &poly1 : CollisionPolygons_)
 	{
-		for(auto poly2 : otherCollider.CollisionPolygons_)
+		for(const auto &poly2 : otherCollider.CollisionPolygons_)
 		{
 			bool rvl = PolygonCollision(thisPos, poly1, otherPos, poly2);
 			if(rvl)
@@ -33,7 +33,7 @@ bool CCollider::CollidesWith(tPoint thisPos, const CCollider &otherCollider, tPo
 
 void CCollider::DumpCollisionPolygons()
 {
-	for(auto &poly : CollisionPolygons_)
+	for(const auto &poly : CollisionPolygons_)
 	{
 		DumpPolygon(poly);
 	}
@@ -41,7 +41,7 @@ void CCollider::DumpCollisionPolygons()
 
 void CCollider::DumpPolygon(const CPolygon &poly)
 {
-		for(auto &point : poly.Points_)
+		for(const auto &point : poly.Points_)
 		{
 			std::cout << "Point: " << point.first << ", " << point.second << std::endl;
 		}

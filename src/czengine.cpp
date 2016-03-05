@@ -3,6 +3,7 @@
 #include "csdlsprite.h"
 #include "cspriteanim.h"
 #include "ccharacter.h"
+#include "croom.h"
 #include <SDL.h>
 #include <iostream>
 #include <unistd.h>
@@ -13,53 +14,21 @@ CZEngine::CZEngine()
 	if(!Init())
 		return;
 
-	std::string f;
-	std::string c;
-	f = "./data/room_01_BG.png";
-	CSDLSprite *background = new CSDLSprite(0, dynamic_cast<CSDLBlitter*>(blitter));
-	background->LoadImage(f);
-	background->SetPos(-100, -200);
-	Sprites_.push_back(background);
-
-	CSpriteAnim *stickman = new CSpriteAnim(2, dynamic_cast<CSDLBlitter*>(blitter));
-	c = "./data/stickman.xml";
-	stickman->ReadConfig(c);
-	stickman->SetPos(100, 400);
-	stickman->SetActiveFrames(0,1);
-	stickman->StartAnimation();
-	Sprites_.push_back(stickman);
-
-	Guybrush_ = new CCharacter(3, dynamic_cast<CSDLBlitter*>(blitter), Sprites_);
-	c = "./data/guybrush.xml";
-	Guybrush_->ReadConfig(c);
-	Guybrush_->SetPos(150, 400);
-	Sprites_.push_back(Guybrush_);
-	//InputSinks_.push_back(Guybrush_);
-
-	Cafer_ = new CCharacter(4, dynamic_cast<CSDLBlitter*>(blitter), Sprites_);
-	c = "./data/cafer.xml";
-	Cafer_->ReadConfig(c);
-	Cafer_->SetPos(300, 400);
-	Sprites_.push_back(Cafer_);
+	Room_ = new CRoom(dynamic_cast<CSDLBlitter*>(blitter));
+	Room_->ReadConfig("./data/room_01.xml");
+	
+	Cafer_ = Room_->characters_[0];
 	InputSinks_.push_back(Cafer_);
-
-	f = "./data/room_01_FG.png";
-	CSDLSprite *foreground = new CSDLSprite(1, dynamic_cast<CSDLBlitter*>(blitter));
-	foreground->LoadImage(f);
-	foreground->SetPos(-100, -200);
-	Sprites_.push_back(foreground);
 }
 
 CZEngine::~CZEngine()
 {
 	Guybrush_ = nullptr;
-	for(auto &i : Sprites_)
-	{
-		delete i;
-	}
-	Sprites_.clear();
+	Cafer_ = nullptr;
+
 	InputSinks_.clear();
 
+	delete Room_;
 	delete blitter;
 }
 
@@ -100,7 +69,7 @@ void CZEngine::Quit()
 void CZEngine::CheckKeyEvents()
 {
 	const unsigned char *keys = SDL_GetKeyboardState(NULL);
-	for(auto &i : InputSinks_)
+	for(const auto &i : InputSinks_)
 	{
 		i->UpdateKeybState(keys);
 	}
@@ -128,14 +97,7 @@ void CZEngine::Render()
 {
 	blitter->Clear();
 
-	for(auto &i : Sprites_)
-	{
-		i->Draw();
-	}
-	for(const auto &i : Sprites_)
-	{
-		i->DrawCollisionPolygons(blitter);
-	}
+	Room_->Draw();
 
 	if(Cafer_->GetActiveColliders().size())
 	{
@@ -170,5 +132,3 @@ void CZEngine::Loop()
 		if(guyY > maxY)
 			blitter->MoveOffset(0, -3);
 }
-
-

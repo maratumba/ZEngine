@@ -1,0 +1,26 @@
+<room>
+	<background file="data/room_01_BG.png" posX="-100" posY="-200">
+		<polygon>
+			<point x="0" y="0" />
+			<point x="0" y="280" />
+			<point x="300" y="360" />
+			<point x="680" y="250" />
+			<point x="870" y="250" />
+			<point x="1200" y="370" />
+			<point x="5000" y="0" />
+		</polygon>
+	</background>
+	<foreground file="data/room_01_FG.png" posX="-100" posY="-200">
+		<polygon>
+			<point x="20" y="182" />
+			<point x="80" y="182" />
+			<point x="80" y="120" />
+			<point x="20" y="120" />
+		</polygon>
+	</foreground>
+
+	<spriteanim file="data/stickman.xml" posX="100" posY="400" firstFrame="0" lastFrame="1" />
+	<character file="data/cafer.xml" posX="300" posY="400" />
+	<character file="data/guybrush.xml" posX="150" posY="400" />
+
+</room>

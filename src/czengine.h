@@ -9,6 +9,7 @@ class CBlitter;
 class CSDLSprite;
 class CSDLInputSink;
 class CCharacter;
+class CRoom;
 
 class CZEngine
 {
@@ -29,8 +30,8 @@ private:
 	CBlitter *blitter = nullptr;
 	CCharacter *Guybrush_ = nullptr;
 	CCharacter *Cafer_ = nullptr;
+	CRoom *Room_ = nullptr;
 	
-	std::vector<CSDLSprite*> Sprites_;
 	std::vector<CSDLInputSink*> InputSinks_;
 };
 

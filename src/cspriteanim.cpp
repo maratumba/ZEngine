@@ -13,7 +13,7 @@ CSpriteAnim::~CSpriteAnim()
 {
 }
 
-int CSpriteAnim::ReadConfig(std::string &file)
+int CSpriteAnim::ReadConfig(const std::string &file)
 {
 	using namespace rapidxml;
 

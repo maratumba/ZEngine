@@ -18,7 +18,7 @@ public:
 	CSDLSprite(int id, CSDLBlitter *blitter);
 	virtual ~CSDLSprite();
 
-	int LoadImage(std::string &file);
+	int LoadImage(const std::string &file);
 	int Draw() override;
 	int DrawFrame(int frameno) const;
 	void DrawCollisionPolygons(CBlitter *blitter, int r = 0, int g = 0, int b = 0) const;
@@ -26,7 +26,6 @@ public:
 	int GetAbsolutePosX() const {return GetPosX() + Blitter_->GetOffsetX();}
 	int GetAbsolutePosY() const {return GetPosY() + Blitter_->GetOffsetY();}
 
-protected:
 	int ReadConfig(const rapidxml::xml_node<> *node);
 
 private:
